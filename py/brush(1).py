@@ -4,7 +4,6 @@ import serial
 import math
 from array import array
 
-
 def distance(x, y):
     """
     Pythagorean theorem
@@ -23,13 +22,13 @@ def findPort():
         ebb_port = None
         for port in com_ports_list:
             if port[1].startswith("EiBotBoard"):
-                ebb_port = port[0]          # Success; EBB found by name match.
-                break                       # stop searching-- we are done.
+                ebb_port = port[0]  # Success; EBB found by name match.
+                break  # stop searching-- we are done.
         if ebb_port is None:
             for port in com_ports_list:
                 if port[2].startswith("USB VID:PID=04D8:FD92"):
-                    ebb_port = port[0]      # Success; EBB found by VID/PID match.
-                    break                   # stop searching-- we are done.
+                    ebb_port = port[0]  # Success; EBB found by VID/PID match.
+                    break  # stop searching-- we are done.
         return ebb_port
 
 
@@ -41,6 +40,7 @@ def openPort(com_port):
     This routine only opens the port;
     it will need to be closed as well, for example with closePort( com_port ).
     You, who open the port, are responsible for closing it as well.
+
     """
     trials = 10
     for _ in range(trials):
@@ -82,16 +82,16 @@ def query(com_port, cmd):
             response = com_port.readline().decode('ascii')
             n_retry_count = 0
             while len(response) == 0 and n_retry_count < 100:
-                                            # get new response to replace null response if necessary
+                # get new response to replace null response if necessary
                 response = com_port.readline()
                 n_retry_count += 1
             if cmd.strip().lower() not in ["v", "i", "a", "mr", "pi", "qm"]:
-                                            # Most queries return an "OK" after the data requested.
-                                            # We skip this for those few queries that do not return an extra line.
+                # Most queries return an "OK" after the data requested.
+                # We skip this for those few queries that do not return an extra line.
                 unused_response = com_port.readline()  # read in extra blank/OK line
                 n_retry_count = 0
                 while len(unused_response) == 0 and n_retry_count < 100:
-                                            # get new response to replace null response if necessary
+                    # get new response to replace null response if necessary
                     unused_response = com_port.readline()
                     n_retry_count += 1
         except:
@@ -102,7 +102,7 @@ def query(com_port, cmd):
 
 
 def queryVersion(com_port):
-    return query(com_port, 'V\r')           # Query EBB Version String
+    return query(com_port, 'V\r')  # Query EBB Version String
 
 
 def command(com_port, cmd):
@@ -112,12 +112,11 @@ def command(com_port, cmd):
             response = com_port.readline().decode('ascii')
             n_retry_count = 0
             while len(response) == 0 and n_retry_count < 100:
-                                            # get new response to replace null response if necessary
+                # get new response to replace null response if necessary
                 response = com_port.readline()
                 n_retry_count += 1
             if response.strip().startswith("OK"):
-                pass
-                # index.errormsg( 'OK after command: ' + cmd ) #Debug option: indicate which command.
+                pass  # inkex.errormsg( 'OK after command: ' + cmd ) #Debug option: indicate which command.
             else:
                 if response:
                     print('Error: Unexpected response from EBB.')
@@ -192,7 +191,7 @@ def doXYMove(port_name, delta_x, delta_y, duration):
     # Typically, this is wired up such that axis 1 is the Y axis and axis 2 is the X axis of motion.
     # On EggBot, Axis 1 is the "pen" motor, and Axis 2 is the "egg" motor.
     if port_name is not None:
-        str_output = 'SM,{0},{1},{2}\r'.format(duration, delta_y, delta_x)
+        str_output = 'SM,{0},{1},{2}\r'.format(duration,delta_y,delta_x)
         command(port_name, str_output)
 
 
@@ -245,15 +244,16 @@ def pen_up(serial_port):
 
 
 def get_steps_time(distance, speed, res=1):
-    steps_to_distance = 1.2460e-02  # in units mm / steps
+    steps_to_distance = 1.2460e-02 # in units mm / steps
     if res == 2:
         steps_to_distance *= 2
-    time = int(distance / speed * 1000)  # in milliseconds
+    time = int(distance / speed * 1000) # in milliseconds
     steps = int(distance / steps_to_distance)
     return steps, time
 
 
 def do_brushing(serial_port, steps=6000, mtime=1000):
+
     setup_servo(serial_port)
     sendEnableMotors(serial_port, 2)
     time.sleep(1)
@@ -261,14 +261,13 @@ def do_brushing(serial_port, steps=6000, mtime=1000):
         print('down and right')
         pen_down(serial_port)
         to_the_right(serial_port, steps, mtime)
-        time.sleep(mtime / 1000)
+        time.sleep(mtime/1000)
         print('up and left')
         pen_up(serial_port)
         to_the_left(serial_port, steps, mtime)
-        time.sleep(mtime / 1000)
+        time.sleep(mtime/1000)
 
     sendDisableMotors(serial_port)
-
 
 def calibration_sequence(serial_port):
     resolution = 2
@@ -281,22 +280,21 @@ def calibration_sequence(serial_port):
     print('Using resolution set to', resolution)
     time.sleep(1)
 
-    scale = 2  # to compensate for the resolution
-    for steps in range(int(1000 / 2), int(11000 / 2), int(1000 / 2)):
+    scale = 2 # to compensate for the resolution
+    for steps in range(int(1000 / 2), int(11000 / 2), int(1000 / 2) ):
         print('Steps:', steps)
         mtime = int(steps / 5) * scale
         pen_down(serial_port)
         to_the_right(serial_port, steps, mtime)
-        time.sleep(mtime / 1000)
+        time.sleep(mtime/1000)
         pen_up(serial_port)
         to_the_left(serial_port, steps, mtime)
-        time.sleep(mtime / 1000)
+        time.sleep(mtime/1000)
         to_the_front(serial_port, fsteps, 200)
         fsteps_total += fsteps
     time.sleep(mtime / 1000)
     to_the_back(serial_port, fsteps_total, 2000)
     time.sleep(2)
-
 
 def brush(serial_port, x_dest, speed):
     y_dest, v_i, v_f = 0, 0, 0
@@ -318,14 +316,14 @@ def brush(serial_port, x_dest, speed):
     # Recall that StepScaleFactor gives a scaling factor for converting from inches to steps. It is *not* the native resolution
     # StepScaleFactor is Either 1016 or 2032, for 8X or 16X microstepping, respectively.
 
-    # resolution = 1 # 16x microstepping
-    resolution = 2  # 8x microstepping
+    #resolution = 1 # 16x microstepping
+    resolution = 2 # 8x microstepping
     print('Using resolution value of', resolution)
 
     if resolution == 2:
         StepScaleFactor = 1016.0
     else:
-        StepScaleFactor = 1016.0 * 2  # Value from variable NativeResFactor in axidraw_conf.py
+        StepScaleFactor = 1016.0 * 2 # Value from variable NativeResFactor in axidraw_conf.py
 
     # Round the requested motion to the nearest motor step.
     motor_steps1 = int(round(StepScaleFactor * motor_dist1))
@@ -348,13 +346,13 @@ def brush(serial_port, x_dest, speed):
     segment_length_inches = distance(delta_x_inches_rounded, delta_y_inches_rounded)
 
     # From axidraw_conf
-    PenUpSpeed = 100  # Default pen-up speed (%).   Range: 1 - 110 %
-    PenDownSpeed = 100  # 25 # Default pen-down speed (%). Range: 1 - 110 %
-    SpeedLimXY_LR = 1  # 12.000 # Maximum XY speed allowed when in Low Resolution
+    PenUpSpeed = 100   # Default pen-up speed (%).   Range: 1 - 110 %
+    PenDownSpeed = 100#25 # Default pen-down speed (%). Range: 1 - 110 %
+    SpeedLimXY_LR = 1#12.000 # Maximum XY speed allowed when in Low Resolution
     #                        # mode, in inches per second. Default: 12.000 Max:
     #                        # 17.3958
 
-    SpeedLimXY_HR = 3  # 8.6979 # Maximum XY speed allowed when in High Resolution
+    SpeedLimXY_HR = 3#8.6979 # Maximum XY speed allowed when in High Resolution
     #                        # mode, in inches per second. Default: 8.6979, Max:
     #                        # 8.6979 Do not increase these values above Max;
     #                        # they are derived from MaxStepRate and the
@@ -362,24 +360,24 @@ def brush(serial_port, x_dest, speed):
     # SpeedLimXY_LR = speed
     # SpeedLimXY_HR = speed
     # Acceleration & Deceleration rates:
-    AccelRate = 100  # 40.0    # Standard acceleration rate, inches per second squared
+    AccelRate = 100 #40.0    # Standard acceleration rate, inches per second squared
     AccelRatePU = 60.0  # Pen-up acceleration rate, inches per second squared
-    accel = 100  # 50              # Acceleration rate factor (1-100)
+    accel = 100 #50              # Acceleration rate factor (1-100)
     TimeSlice = 0.025  # Interval, in seconds, of when to update the
-    # motors. Default: TimeSlice = 0.025 (25 ms)
+                       # motors. Default: TimeSlice = 0.025 (25 ms)
     MaxStepRate = 24.995  # Maximum allowed motor step rate, in steps per millisecond.
     # Note that 25 kHz is the absolute maximum step rate for the EBB.
     # Movement commands faster than this are ignored; may result in a crash (loss of position control).
     # We use a conservative value, to help prevent errors due to rounding.
     # This value is normally used _for speed limit checking only_.
 
-    speed_pendown = PenDownSpeed * SpeedLimXY_HR / 110.0  # Speed given as
-    # maximum inches/second
-    # in XY plane
-    speed_penup = PenUpSpeed * SpeedLimXY_HR / 110.0  # Speed given as
-    # maximum
-    # inches/second in XY
-    # plane
+    speed_pendown = PenDownSpeed * SpeedLimXY_HR / 110.0 # Speed given as
+                                                         # maximum inches/second
+                                                         # in XY plane
+    speed_penup = PenUpSpeed * SpeedLimXY_HR / 110.0	 # Speed given as
+                                                         # maximum
+                                                         # inches/second in XY
+                                                         # plane
 
     # Note: The value of `accel`, in the Inkscape extension, depends ot the
     # timing parameter "Acceleration"
@@ -439,9 +437,9 @@ def brush(serial_port, x_dest, speed):
     # alert system, just in case!
 
     duration_array = array('I')  # unsigned integer for duration -- up to
-    # 65 seconds for a move if only 2 bytes.
+                                 # 65 seconds for a move if only 2 bytes.
     dist_array = array('f')  # float
-    dest_array1 = array('i')  # signed integer
+    dest_array1 = array('i') # signed integer
     dest_array2 = array('i')  # signed integer
 
     time_elapsed = 0.0
@@ -467,12 +465,12 @@ def brush(serial_port, x_dest, speed):
             duration_array.append(int(round(time_elapsed * 1000.0)))
             dist_array.append(position)  # Estimated distance along direction of travel
 
-            # Add a center "coasting" speed interval IF there is time for it.
+                 # Add a center "coasting" speed interval IF there is time for it.
         coasting_distance = segment_length_inches - (accel_dist_max + decel_dist_max)
 
         if coasting_distance > (time_slice * speed_max):
             # There is enough time for (at least) one interval at full cruising speed.
-            velocity = speed  # speed_max
+            velocity = speed #speed_max
             cruising_time = coasting_distance / velocity
             time_elapsed += cruising_time
             duration_array.append(int(round(time_elapsed * 1000.0)))
@@ -533,7 +531,7 @@ def brush(serial_port, x_dest, speed):
             prev_motor2 += move_steps2
 
             if move_steps1 != 0 or move_steps2 != 0:  # if at least one motor step
-                # is required for this move.
+                                                      # is required for this move.
 
                 motor_dist1_temp = float(move_steps1) / (StepScaleFactor * 2.0)
                 motor_dist2_temp = float(move_steps2) / (StepScaleFactor * 2.0)
@@ -541,7 +539,7 @@ def brush(serial_port, x_dest, speed):
                 # Convert back to find the actual X & Y distances that will be moved:
                 # X Distance moved in this subsegment, in inchse
                 x_delta = (motor_dist1_temp + motor_dist2_temp)
-                # Y Distance moved in this subsegment,
+                 # Y Distance moved in this subsegment,
                 y_delta = (motor_dist1_temp - motor_dist2_temp)
 
                 f_new_x = f_curr_x + x_delta
@@ -549,12 +547,12 @@ def brush(serial_port, x_dest, speed):
                 print('Command:', move_steps2, move_steps1, move_time)
                 doXYMove(serial_port, move_steps2, move_steps1, move_time)
                 if move_time > 50:
-                    # print('sleep time', float(move_time - 10) / 1000.0)
+                    #print('sleep time', float(move_time - 10) / 1000.0)
                     time.sleep(float(move_time - 10) / 1000.0)  # pause before issuing next command
+
 
                 f_curr_x = f_new_x  # Update current position
                 f_curr_y = f_new_y
-
 
 def old():
     pass
@@ -600,24 +598,14 @@ if __name__ == '__main__':
         print('Could not open the port.')
         sys.exit(-1)
 
+
     resolution = 2
     print('Using resolution set to', resolution)
     sendEnableMotors(serial_port, resolution)
+    #pen_up(serial_port)
+    #brush(serial_port, 2.8, 11.8) # Distance y velocidad en pulgadas
+    brush(serial_port, 2.8, 11.8/100) # Distance y velocidad en pulgadas
     # pen_up(serial_port)
-    D1 = 2.8
-    D1_1 = 3
-
-    D2 = 3.73
-    D2_1 = 4.3
-
-    V1 = 0.11  # 03
-    V2 = 1.18  # 3
-    V3 = 11.81  # 30
-
-    #    brush(serial_port, D1, V3) # Distance y velocidad en pulgadas
-    brush(serial_port, D2, V3)
-
-    #     pen_up(serial_port)
 
     sendDisableMotors(serial_port)
     closePort(serial_port)
