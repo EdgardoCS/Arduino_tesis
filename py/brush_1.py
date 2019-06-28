@@ -654,19 +654,17 @@ if __name__ == '__main__':
     desired_interval = 2
 
     save_speed = []
-    for i in range(0, 30):
+    for i in range(0, 2):
         print('trial: ', i + 1)
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
 
-
-    #for u in range(0, 30):
-
-
     print('------------------')
-    print('Estimulation ended')
+    print('stimulation ended')
     print('------------------')
-    np.savetxt('trials.csv', save_speed, delimiter=';', fmt='%s',
+    out_name = 'C:\Project\code_tesis\data'
+    
+    np.savetxt(out_name + '/trials.csv', save_speed, delimiter=';', fmt='%s',
                header="Trails rnd")
 
     sendDisableMotors(serial_port)
