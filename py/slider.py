@@ -69,6 +69,7 @@ trial_axis = plt.figtext(0.87, 0.75, 0, size="medium")
 
 plt.show()
 
+
 def update(val):
     values
     if sVAS.val:
@@ -78,17 +79,17 @@ def update(val):
 
 def reset(event):
     global values
-    
+
     if values:
         res_values.append(values[-1])
     if values == []:
         values = 0.0
         res_values.append(values)
-        
+
     trials = len(res_values)
     trial_axis.set_text(trials)
 
-#    elapsed_time.append(time.time())
+    #    elapsed_time.append(time.time())
     w_time = time.asctime(time.localtime(time.time()))
     temp_time = w_time.split()
     elapsed_time.append(temp_time[3])
@@ -96,24 +97,25 @@ def reset(event):
     sVAS.reset()
     time.sleep(.09)
     values = []
-    
+
     return res_values
 
 
 def save(event):
-
     meta_sub = 'trial_sub'
     meta_time = 'trial_time'
-    
+
     print(res_values)
     print(elapsed_time)
-#    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-#    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    np.savetxt(meta_sub+'_'+meta_time+'.csv', np.c_[res_values,elapsed_time], delimiter= ';', fmt= '%s', header="Resultado VAS")
+    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    np.savetxt(meta_sub + '_' + meta_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
+               header="Resultado VAS")
     plt.close()
 
-#meta_sub = input('sujeto: ')
-#meta_time = input('yymmdd_hhmm: ')
+
+# meta_sub = input('sujeto: ')
+# meta_time = input('yymmdd_hhmm: ')
 
 sVAS.on_changed(update)
 reset_button.on_clicked(reset)

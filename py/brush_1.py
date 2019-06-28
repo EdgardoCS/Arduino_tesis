@@ -2,9 +2,11 @@ import sys
 import time
 import serial
 import math
+import numpy as np
 from array import array
 from random import shuffle
 from itertools import chain
+
 
 # in new environment, install serial & pyserial
 
@@ -229,14 +231,15 @@ def to_the_left(serial_port, steps, mtime):
 
 def setup_servo(serial_port):
     print('Setting the servo...')
-    #command(serial_port, 'SC,4,20641\r')
-    #command(serial_port, 'SC'4,15248\r')
+    # command(serial_port, 'SC,4,20641\r')
+    # command(serial_port, 'SC'4,15248\r')
     command(serial_port, 'SC,4,65535\r')
     command(serial_port, 'SC,5,65535\r')
     command(serial_port, 'SC,11,2000\r')
     command(serial_port, 'SC,12,750\r')
     command(serial_port, 'SM,10,0,0\r')
     print('Done')
+
 
 def pen_up(serial_port):
     command(serial_port, 'PD,B,3,0\r')  # Enable trigger
@@ -247,6 +250,7 @@ def pen_up(serial_port):
     command(serial_port, 'SP,1,200\r')
     command(serial_port, 'SM,10,0,0\r')
     command(serial_port, 'PO,B,3,0\r')  # Trigger
+
 
 def pen_down(serial_port):
     command(serial_port, 'PD,B,3,0\r')  # Enable trigger
@@ -269,6 +273,7 @@ def pen_down(serial_port):
     command(serial_port, 'SP,1,200\r')
     command(serial_port, 'SM,10,0,0\r')
 '''
+
 
 def get_steps_time(distance, speed, res=1):
     steps_to_distance = 1.2460e-02  # in units mm / steps
@@ -304,7 +309,7 @@ def calibration_sequence(serial_port):
     setup_servo(serial_port)
 
     sendEnableMotors(serial_port, resolution)
-    #print('Using resolution set to', resolution)
+    # print('Using resolution set to', resolution)
     time.sleep(1)
 
     scale = 2  # to compensate for the resolution
@@ -348,7 +353,7 @@ def brush(serial_port, x_dest, speed):
 
     # resolution = 1 # 16x microstepping
     resolution = 2  # 8x microstepping
-    #print('Using resolution value of', resolution)
+    # print('Using resolution value of', resolution)
 
     if resolution == 2:
         StepScaleFactor = 1016.0
@@ -583,7 +588,7 @@ def brush(serial_port, x_dest, speed):
                 f_new_x = f_curr_x + x_delta
                 f_new_y = f_curr_y + y_delta
 
-                #print('Command:', move_steps2, move_steps1, move_time)
+                # print('Command:', move_steps2, move_steps1, move_time)
 
                 doXYMove(serial_port, move_steps2, move_steps1, move_time)
                 if move_time > 50:
@@ -621,18 +626,18 @@ if __name__ == '__main__':
         sys.exit(-1)
 
     resolution = 2
-    #print('Using resolution set to', resolution)
+    # print('Using resolution set to', resolution)
     sendEnableMotors(serial_port, resolution)
 
     desired_distance = 2.83465  # 72mm
     # desired_distance = 3.89764
 
-    speed1 = 0.11811    # 3 mm/s
-    speed2 = 0.393701   # 10 mm/s
-    speed3 = 1.1811     # 30 mm/s
-    speed4 = 1.9685     # 50 mm/s
-    speed5 = 3.93701    # 100 mm/s
-    speed6 = 7.87402    # 200 mm/s
+    speed1 = 0.11811  # 3 mm/s
+    speed2 = 0.393701  # 10 mm/s
+    speed3 = 1.1811  # 30 mm/s
+    speed4 = 1.9685  # 50 mm/s
+    speed5 = 3.93701  # 100 mm/s
+    speed6 = 7.87402  # 200 mm/s
 
     speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
 
@@ -646,12 +651,23 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    desired_interval = 30
+    desired_interval = 2
 
+    save_speed = []
     for i in range(0, 30):
         print('trial: ', i + 1)
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
+        save_speed.append(round(desired_speed[i] * 25.4))
+
+
+    #for u in range(0, 30):
+
+
+    print('------------------')
+    print('Estimulation ended')
+    print('------------------')
+    np.savetxt('trials.csv', save_speed, delimiter=';', fmt='%s',
+               header="Trails rnd")
 
     sendDisableMotors(serial_port)
     closePort(serial_port)
-    print('bye')
