@@ -6,7 +6,7 @@ Created on Thu Dec  6 11:28:12 2018
 """
 # from matplotlib import cm
 import time
-
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Slider, Button
@@ -104,21 +104,33 @@ def reset(event):
 def save(event):
     meta_sub = 'trial_sub'
     meta_time = 'trial_time'
+    
+    # meta_sub = input('sujeto: ')
+    # meta_time = input('yymmdd_hhmm: ')
 
     print(res_values)
     print(elapsed_time)
     
-    out_name = 'C:\Project\code_tesis\data'
     
+    out_name = 'C:\Project\code_tesis\data'
+    path = out_name+'/'+meta_sub
+    
+    try:  
+        os.mkdir(path)
+    except OSError:  
+        print ("Creation of the directory %s failed" % path)
+    else:  
+        print ("Successfully created the directory %s " % path)
+    
+  
     #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
     #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    np.savetxt(out_name+ '/'+ meta_sub + '_' + meta_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
+    np.savetxt(path+ '/'+ meta_sub + '_' + meta_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
                header="Resultado VAS")
     plt.close()
 
 
-# meta_sub = input('sujeto: ')
-# meta_time = input('yymmdd_hhmm: ')
+
 
 sVAS.on_changed(update)
 reset_button.on_clicked(reset)

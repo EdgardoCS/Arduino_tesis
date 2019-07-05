@@ -257,7 +257,7 @@ def pen_down(serial_port):
     command(serial_port, 'SC,4,32766\r')
     command(serial_port, 'SC,5,8248\r')
     command(serial_port, 'SC,11,2000\r')
-    command(serial_port, 'SC,12,750\r')
+    command(serial_port, 'SC,12,350\r')
     command(serial_port, 'SP,0,200\r')
     command(serial_port, 'SM,10,0,0\r')
     command(serial_port, 'PO,B,3,1\r')  # Trigger
@@ -442,7 +442,8 @@ def brush(serial_port, x_dest, speed):
 
     # Acceleration/deceleration rates:
     if pen_up:
-        accel_rate = AccelRatePU * accel / 100.0
+        accel_rate = AccelRatePU * accel / 10
+        0.0
     else:
         accel_rate = AccelRate * accel / 100.0
 
@@ -639,8 +640,8 @@ if __name__ == '__main__':
     speed5 = 3.93701  # 100 mm/s
     speed6 = 7.87402  # 200 mm/s
 
-    speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
-
+    #speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
+    speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
     rnd = list(speed_list)
     #    print (rnd)
     temp = []
@@ -651,10 +652,10 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    desired_interval = 2
+    desired_interval = 5
 
     save_speed = []
-    for i in range(0, 2):
+    for i in range(0, 5):
         print('trial: ', i + 1)
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
@@ -663,7 +664,7 @@ if __name__ == '__main__':
     print('stimulation ended')
     print('------------------')
     out_name = 'C:\Project\code_tesis\data'
-    
+
     np.savetxt(out_name + '/trials.csv', save_speed, delimiter=';', fmt='%s',
                header="Trails rnd")
 
