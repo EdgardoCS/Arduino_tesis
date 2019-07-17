@@ -7,6 +7,7 @@ Created on Thu Dec  6 11:28:12 2018
 # from matplotlib import cm
 import os
 import time
+import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
@@ -20,6 +21,9 @@ trial = []
 trials = []
 res_values = []
 
+
+meta_sub = input('sujeto: ')
+    
 plt.figure(figsize=[16, 5])
 plt.figtext(0.40, 0.75, 'Visual Analog Scale (VAS)', size="x-large")
 
@@ -90,7 +94,6 @@ def reset(event):
     trials = len(res_values)
     trial_axis.set_text(trials)
 
-    #    elapsed_time.append(time.time())
     w_time = time.asctime(time.localtime(time.time()))
     temp_time = w_time.split()
     elapsed_time.append(temp_time[3])
@@ -103,20 +106,18 @@ def reset(event):
 
 
 def save(event):
-    meta_sub = 'trial_sub'
-    meta_time = 'trial_time'
-    
-    # meta_sub = input('sujeto: ')
-    # meta_time = input('yymmdd_hhmm: ')
-
-    #print(res_values)
-    #print(elapsed_time)
+    global meta_sub
     
     global_path = os.getcwd()
-    #print(global_path)
-    
     out_name = global_path + '/../sujetos'
+    
     path = out_name+ '/' + meta_sub
+    
+    n_time = time.asctime(time.localtime(time.time()))
+    _today = str(datetime.date.today())
+    today = _today.replace('-','')
+    _time = n_time.split()
+    save_time = today+'_'+_time[3].replace(':','')[:-2]
     
     try:  
        os.mkdir(path)
@@ -127,7 +128,7 @@ def save(event):
         
 #    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
 #    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    np.savetxt(path+ '/'+ meta_sub + '_' + meta_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
+    np.savetxt(path+ '/'+ meta_sub + '_' + save_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
                header="Resultado VAS")
     plt.close()
 
