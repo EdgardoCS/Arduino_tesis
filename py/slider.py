@@ -5,11 +5,12 @@ Created on Thu Dec  6 11:28:12 2018
 @author: Edgardo
 """
 # from matplotlib import cm
-import time
 import os
-import matplotlib.pyplot as plt
+import time
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
+
 
 elapsed_time = []
 f0 = 0
@@ -27,12 +28,12 @@ cmap = plt.cm.get_cmap("winter")
 
 VASax = plt.axes([0.1, 0.5, 0.8, 0.2])
 
-sVAS = Slider(VASax, 'No Placentero', -10.0, 10.0, valinit=f0, valstep=delta_f, dragging=True, edgecolor='r',
+sVAS = Slider(VASax, 'No Agradable', -10.0, 10.0, valinit=f0, valstep=delta_f, dragging=True, edgecolor='r',
               fill=False)
 sVAS.valtext.set_visible(False)
 sVAS.vline.set_visible(False)
 
-plt.figtext(0.915, 0.6, 'Placentero', size="medium")
+plt.figtext(0.915, 0.6, 'Agradable', size="medium")
 plt.figtext(0.1, 0.44, '-10', size="medium")
 plt.figtext(0.89, 0.44, '10', size="medium")
 plt.figtext(0.5, 0.44, '0', size="medium")
@@ -108,29 +109,27 @@ def save(event):
     # meta_sub = input('sujeto: ')
     # meta_time = input('yymmdd_hhmm: ')
 
-    print(res_values)
-    print(elapsed_time)
+    #print(res_values)
+    #print(elapsed_time)
     
+    global_path = os.getcwd()
+    #print(global_path)
     
-    out_name = 'C:\Project\code_tesis\data'
-    path = out_name+'/'+meta_sub
+    out_name = global_path + '/../sujetos'
+    path = out_name+ '/' + meta_sub
     
     try:  
-        os.mkdir(path)
+       os.mkdir(path)
     except OSError:  
         print ("Creation of the directory %s failed" % path)
     else:  
         print ("Successfully created the directory %s " % path)
-    
-  
-    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+        
+#    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+#    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
     np.savetxt(path+ '/'+ meta_sub + '_' + meta_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
                header="Resultado VAS")
     plt.close()
-
-
-
 
 sVAS.on_changed(update)
 reset_button.on_clicked(reset)
