@@ -10,6 +10,7 @@ int i;
 int sum;
 int incomingbyte = 0;
 
+int flag = 0;
 int duration;
 int temp1;
 int temp2;
@@ -42,29 +43,36 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
+
     incomingbyte = Serial.read();
     if (incomingbyte == 49) {
-      Serial.println("uno");
+      Serial.println("3mm/s");
+      flag = 0;
       Timer1.attachInterrupt(pulse_1);
     }
     else if (incomingbyte == 50) {
-      Serial.println("dos");
+      Serial.println("10mm/s");
+      flag = 0;
       Timer1.attachInterrupt(pulse_2);
     }
     else if (incomingbyte == 51) {
-      Serial.println("tres");
+      Serial.println("30mm/s");
+      flag = 0;
       Timer1.attachInterrupt(pulse_3);
     }
     else if (incomingbyte == 52) {
-      Serial.println("cuatro");
+      flag = 0;
+      Serial.println("50mm/s");
       Timer1.attachInterrupt(pulse_4);
     }
     else if (incomingbyte == 53) {
-      Serial.println("cinco");
+      flag = 0;
+      Serial.println("100mm/s");
       Timer1.attachInterrupt(pulse_5);
     }
     else if (incomingbyte == 54) {
-      Serial.println("seis");
+      flag = 0;
+      Serial.println("200mm/s");
       Timer1.attachInterrupt(pulse_6);
     }
   }
@@ -83,24 +91,31 @@ void pulse_1() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration + 1) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = duration * 2;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = duration * 4;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration + 1) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = duration * 2;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = duration * 4;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }
 ///////////////////////////////////////////////////
@@ -109,24 +124,31 @@ void pulse_2() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration + 1) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = duration * 2;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = duration * 4;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration + 1) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = duration * 2;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = duration * 4;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }
 
@@ -136,24 +158,31 @@ void pulse_3() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration + 1) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = duration * 2;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = duration * 4;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration + 1) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = duration * 2;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = duration * 4;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }
 ///////////////////////////////////////////////////
@@ -162,24 +191,31 @@ void pulse_4() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration + 1) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = duration * 2;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = duration * 4;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration + 1) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = duration * 2;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = duration * 4;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }
 ///////////////////////////////////////////////////
@@ -188,24 +224,31 @@ void pulse_5() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = (duration * 2)+1;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = (duration * 4)+1;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = (duration * 2) + 1;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = (duration * 4) + 1;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }
 ///////////////////////////////////////////////////
@@ -214,23 +257,30 @@ void pulse_6() {
   temp1 = duration;
   temp2 = 0;
 
-  ++sum;
+  if (flag == 0) {
 
-  if (sum < duration + 1) {
-    digitalWrite(pin1, !digitalRead(pin1));
-  }
-  temp2 = duration * 2;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin2, !digitalRead(pin2));
-  }
-  temp1 = temp2;
-  temp2 = duration * 3;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin3, !digitalRead(pin3));
-  }
-  temp1 = temp2;
-  temp2 = duration * 4;
-  if (sum >= temp1 && sum < temp2) {
-    digitalWrite(pin4, !digitalRead(pin4));
+    ++sum;
+
+    if (sum < duration + 1) {
+      digitalWrite(pin1, !digitalRead(pin1));
+    }
+    temp2 = duration * 2;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin2, !digitalRead(pin2));
+    }
+    temp1 = temp2;
+    temp2 = duration * 3;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin3, !digitalRead(pin3));
+    }
+    temp1 = temp2;
+    temp2 = duration * 4;
+    if (sum >= temp1 && sum < temp2) {
+      digitalWrite(pin4, !digitalRead(pin4));
+    }
+    if (sum >= duration * 4) {
+      sum = 0;
+      flag = 1;
+    }
   }
 }

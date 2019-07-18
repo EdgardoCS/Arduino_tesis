@@ -7,7 +7,6 @@ from array import array
 from random import shuffle
 from itertools import chain
 
-
 # in new environment, install serial & pyserial
 
 def distance(x, y):
@@ -166,7 +165,6 @@ def sendEnableMotors(port_name, res):
         # If res == 4, -> 2X microstepping
         # If res == 5, -> No microstepping
 
-
 def doTimedPause(port_name, n_pause):
     if port_name is not None:
         while n_pause > 0:
@@ -179,18 +177,15 @@ def doTimedPause(port_name, n_pause):
             command(port_name, 'SM,{0},0,0\r'.format(td))
             n_pause -= td
 
-
 def sendPenDown(port_name, pen_delay):
     if port_name is not None:
         str_output = 'SP,0,{0}\r'.format(pen_delay)
         command(port_name, str_output)
 
-
 def sendPenUp(port_name, pen_delay):
     if port_name is not None:
         str_output = 'SP,1,{0}\r'.format(pen_delay)
         command(port_name, str_output)
-
 
 def doXYMove(port_name, delta_x, delta_y, duration):
     # Move X/Y axes as: "SM,<move_duration>,<axis1>,<axis2><CR>"
@@ -199,7 +194,6 @@ def doXYMove(port_name, delta_x, delta_y, duration):
     if port_name is not None:
         str_output = 'SM,{0},{1},{2}\r'.format(duration, delta_y, delta_x)
         command(port_name, str_output)
-
 
 def to_the_front(serial_port, steps, mtime):
     doXYMove(serial_port, -steps, steps, mtime)
@@ -663,9 +657,9 @@ if __name__ == '__main__':
     print('------------------')
     print('stimulation ended')
     print('------------------')
-    out_name = 'C:\Project\code_tesis\data'
+    out_name = 'C:\Project\code_tesis\data\rnd'
 
-    np.savetxt(out_name + '/trials.csv', save_speed, delimiter=';', fmt='%s',
+    np.savetxt(out_name + '/trials_sub'+i+'.csv', save_speed, delimiter=';', fmt='%s',
                header="Trails rnd")
 
     sendDisableMotors(serial_port)
