@@ -21,7 +21,6 @@ trial = []
 trials = []
 res_values = []
 
-
 meta_sub = input('sujeto: ')
     
 plt.figure(figsize=[16, 5])

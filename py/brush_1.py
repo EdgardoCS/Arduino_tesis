@@ -634,8 +634,8 @@ if __name__ == '__main__':
     speed5 = 3.93701  # 100 mm/s
     speed6 = 7.87402  # 200 mm/s
 
-    #speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
-    speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
+    speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
+    #speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
     rnd = list(speed_list)
     #    print (rnd)
     temp = []
@@ -646,21 +646,26 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    desired_interval = 5
+    desired_interval = 30
+    #desired_interval = 5
 
     save_speed = []
-    for i in range(0, 5):
+    for i in range(0, 30):
+    # for i in range(0, 5):
         print('trial: ', i + 1)
+
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
 
     print('------------------')
     print('stimulation ended')
     print('------------------')
-    out_name = 'C:\Project\code_tesis\data\rnd'
+    out_name = 'C:\Project\code_tesis\data/rnd'
 
-    np.savetxt(out_name + '/trials_sub'+i+'.csv', save_speed, delimiter=';', fmt='%s',
+    np.savetxt(out_name + '/trials.csv', save_speed, delimiter=';', fmt='%s',
                header="Trails rnd")
 
+    print('saved')
+    print('------------------')
     sendDisableMotors(serial_port)
     closePort(serial_port)
