@@ -13,13 +13,18 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 
 
-elapsed_time = []
 f0 = 0
 delta_f = 1
+
+elapsed_time = []
+diff_time = []
+
 values = []
 trial = []
 trials = []
+
 res_values = []
+final_time = None
 
 meta_sub = input('sujeto: ')
     
@@ -68,8 +73,8 @@ reset = plt.axes([0.8, 0.3, 0.10, 0.08])
 reset_button = Button(reset, 'Almacenar Valor', hovercolor='0.975')
 save = plt.axes([0.8, 0.2, 0.10, 0.08])
 save_button = Button(save, 'Guardar y Salir ', hovercolor='0.975')
-plt.figtext(0.8, 0.75, "Trials: ", size="medium")
-trial_axis = plt.figtext(0.87, 0.75, 0, size="medium")
+plt.figtext(0.8, 0.75, "Trial: ", size="medium")
+trial_axis = plt.figtext(0.87, 0.75, 1, size="medium")
 
 plt.show()
 
@@ -90,12 +95,29 @@ def reset(event):
         values = 0.0
         res_values.append(values)
 
-    trials = len(res_values)
+    
+    trials = len(res_values)+1
+    if len(res_values) == 29:
+        trials = 'Final trial'
+    
     trial_axis.set_text(trials)
 
     w_time = time.asctime(time.localtime(time.time()))
     temp_time = w_time.split()
     elapsed_time.append(temp_time[3])
+
+#    w_time = datetime.datetime.now()
+#    elapsed_time.append(w_time)
+#    
+#    target = len(elapsed_time)
+#    desired_trials = 5
+#    
+#    if target == desired_trials: 
+#        for u in range(target-1) :
+#            diff_time.append(elapsed_time[u+1]-elapsed_time[u])
+#        print(diff_time)
+#        final_time = str(diff_time)
+        
 
     sVAS.reset()
     time.sleep(.09)
@@ -106,6 +128,7 @@ def reset(event):
 
 def save(event):
     global meta_sub
+    global final_time
     
     global_path = os.getcwd()
     out_name = global_path + '/../data/sujetos'
@@ -113,6 +136,7 @@ def save(event):
     path = out_name+ '/' + meta_sub
     
     n_time = time.asctime(time.localtime(time.time()))
+    
     _today = str(datetime.date.today())
     today = _today.replace('-','')
     _time = n_time.split()

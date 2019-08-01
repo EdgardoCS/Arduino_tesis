@@ -251,7 +251,8 @@ def pen_down(serial_port):
     command(serial_port, 'SC,4,32766\r')
     command(serial_port, 'SC,5,8248\r')
     command(serial_port, 'SC,11,2000\r')
-    command(serial_port, 'SC,12,350\r')
+    #command(serial_port, 'SC,12,350\r')
+    command(serial_port, 'SC,12,650\r')
     command(serial_port, 'SP,0,200\r')
     command(serial_port, 'SM,10,0,0\r')
     command(serial_port, 'PO,B,3,1\r')  # Trigger
@@ -646,12 +647,12 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    desired_interval = 30
+    desired_interval = 20
     #desired_interval = 5
 
     save_speed = []
     for i in range(0, 30):
-    # for i in range(0, 5):
+    #for i in range(0, 5):
         print('trial: ', i + 1)
 
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
