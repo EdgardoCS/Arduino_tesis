@@ -1,0 +1,90 @@
+trial:  1
+Brushing to 2.83465 with speed 1.1811
+Brushing to -2.83465 with speed 1.9685
+trial:  2
+Brushing to 2.83465 with speed 0.11811
+Brushing to -2.83465 with speed 1.9685
+trial:  3
+Brushing to 2.83465 with speed 1.9685
+Brushing to -2.83465 with speed 1.9685
+trial:  4
+Brushing to 2.83465 with speed 3.93701
+Brushing to -2.83465 with speed 1.9685
+trial:  5
+Brushing to 2.83465 with speed 7.87402
+Brushing to -2.83465 with speed 1.9685
+trial:  6
+Brushing to 2.83465 with speed 0.393701
+Brushing to -2.83465 with speed 1.9685
+trial:  7
+Brushing to 2.83465 with speed 1.9685
+Brushing to -2.83465 with speed 1.9685
+trial:  8
+Brushing to 2.83465 with speed 7.87402
+Brushing to -2.83465 with speed 1.9685
+trial:  9
+Brushing to 2.83465 with speed 1.1811
+Brushing to -2.83465 with speed 1.9685
+trial:  10
+Brushing to 2.83465 with speed 0.11811
+Brushing to -2.83465 with speed 1.9685
+trial:  11
+Brushing to 2.83465 with speed 3.93701
+Brushing to -2.83465 with speed 1.9685
+trial:  12
+Brushing to 2.83465 with speed 0.393701
+Brushing to -2.83465 with speed 1.9685
+trial:  13
+Brushing to 2.83465 with speed 0.11811
+Brushing to -2.83465 with speed 1.9685
+trial:  14
+Brushing to 2.83465 with speed 3.93701
+Brushing to -2.83465 with speed 1.9685
+trial:  15
+Brushing to 2.83465 with speed 0.393701
+Brushing to -2.83465 with speed 1.9685
+trial:  16
+Brushing to 2.83465 with speed 1.1811
+Brushing to -2.83465 with speed 1.9685
+trial:  17
+Brushing to 2.83465 with speed 1.9685
+Brushing to -2.83465 with speed 1.9685
+trial:  18
+Brushing to 2.83465 with speed 7.87402
+Brushing to -2.83465 with speed 1.9685
+trial:  19
+Brushing to 2.83465 with speed 1.1811
+Brushing to -2.83465 with speed 1.9685
+trial:  20
+Brushing to 2.83465 with speed 1.9685
+Brushing to -2.83465 with speed 1.9685
+trial:  21
+Brushing to 2.83465 with speed 0.11811
+Brushing to -2.83465 with speed 1.9685
+trial:  22
+Brushing to 2.83465 with speed 7.87402
+Brushing to -2.83465 with speed 1.9685
+trial:  23
+Brushing to 2.83465 with speed 0.393701
+Brushing to -2.83465 with speed 1.9685
+trial:  24
+Brushing to 2.83465 with speed 3.93701
+Brushing to -2.83465 with speed 1.9685
+trial:  25
+Brushing to 2.83465 with speed 1.1811
+Brushing to -2.83465 with speed 1.9685
+trial:  26
+Brushing to 2.83465 with speed 7.87402
+Brushing to -2.83465 with speed 1.9685
+trial:  27
+Brushing to 2.83465 with speed 0.393701
+Brushing to -2.83465 with speed 1.9685
+trial:  28
+Brushing to 2.83465 with speed 1.9685
+Brushing to -2.83465 with speed 1.9685
+trial:  29
+Brushing to 2.83465 with speed 3.93701
+Brushing to -2.83465 with speed 1.9685
+trial:  30
+Brushing to 2.83465 with speed 0.11811
+Brushing to -2.83465 with speed 1.9685

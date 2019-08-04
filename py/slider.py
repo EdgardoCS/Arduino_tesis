@@ -99,6 +99,7 @@ def reset(event):
     trials = len(res_values)+1
     if len(res_values) == 29:
         trials = 'Final trial'
+        reset_button.on_clicked(save)
     
     trial_axis.set_text(trials)
 
@@ -118,11 +119,12 @@ def reset(event):
 #        print(diff_time)
 #        final_time = str(diff_time)
         
-
+    
     sVAS.reset()
     time.sleep(.09)
     values = []
 
+    print(res_values)
     return res_values
 
 

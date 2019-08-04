@@ -6,8 +6,11 @@ import numpy as np
 from array import array
 from random import shuffle
 from itertools import chain
+import time
 
 # in new environment, install serial & pyserial
+
+start_time = []
 
 def distance(x, y):
     """
@@ -651,20 +654,25 @@ if __name__ == '__main__':
     #desired_interval = 5
 
     save_speed = []
+
     for i in range(0, 30):
-    #for i in range(0, 5):
+    #for i in range(0, 6):
         print('trial: ', i + 1)
 
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
+
+        w_time = time.asctime(time.localtime(time.time()))
+        temp_time = w_time.split()
+        start_time.append(temp_time[3])
 
     print('------------------')
     print('stimulation ended')
     print('------------------')
     out_name = 'C:\Project\code_tesis\data/rnd'
 
-    np.savetxt(out_name + '/trials.csv', save_speed, delimiter=';', fmt='%s',
-               header="Trails rnd")
+    np.savetxt(out_name + '/trials.csv', np.c_[save_speed, start_time], delimiter=';', fmt='%s',
+               header="Trials rnd")
 
     print('saved')
     print('------------------')

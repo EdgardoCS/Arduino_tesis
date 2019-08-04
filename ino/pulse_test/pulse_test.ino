@@ -11,12 +11,12 @@ int sum;
 int incomingbyte = 0;
 
 int flag = 0;
-int limit = 30;
 int forflag = 0;
 int duration;
 int temp1;
 int temp2;
 
+int limit = 30;
 int wait_interval = 20 * 1000;
 
 int duration1 = 24 * 1000;
@@ -27,8 +27,9 @@ int duration5 = 1 * 1000;
 int duration6 = 1 * 1000;
 
 // 1 = 3; 2 = 10; 3 = 30; 4 = 50; 5 = 100; 6 = 200
-int shuffle_speed[] = {5, 2, 4, 3, 6, 1, 3, 1, 4, 6, 2, 5, 6, 5, 1, 3, 2, 4, 6, 4, 1, 2, 5, 3, 1, 4, 3, 6, 5, 2
+int shuffle_speed[] = {3, 5, 1, 4, 6, 2, 3, 2, 1, 5, 6, 4,1, 4, 3, 6, 5, 2, 1, 2, 5, 3, 6, 4, 3, 1, 2, 6, 5, 4
                       };
+
 
 void setup() {
   Serial.begin(9600);
@@ -60,7 +61,7 @@ void loop() {
   //if (Serial.available() > 0) {
 
   for (int u = 0; u < limit; u++) {
-
+    Serial.println(u);
     if (forflag == 0) {
       Serial.print("trial: ");
       Serial.println(u + 1);
@@ -70,7 +71,8 @@ void loop() {
         flag = 0;
         Timer1.attachInterrupt(pulse_1);
         //delay(duration1);
-        delay(duration1 + wait_interval);
+        delay(duration1);
+        delay(wait_interval); 
       }
 
       if (shuffle_speed[u] == 2) {
