@@ -27,7 +27,7 @@ int duration5 = 1 * 1000;
 int duration6 = 1 * 1000;
 
 // 1 = 3; 2 = 10; 3 = 30; 4 = 50; 5 = 100; 6 = 200
-int shuffle_speed[] = {3, 5, 1, 4, 6, 2, 3, 2, 1, 5, 6, 4,1, 4, 3, 6, 5, 2, 1, 2, 5, 3, 6, 4, 3, 1, 2, 6, 5, 4
+int shuffle_speed[] = {6, 5, 2, 1, 3, 4, 4, 5, 6, 3, 2, 1, 6, 4, 1, 2, 3, 5, 4, 2, 3, 5, 1, 6, 6, 5, 2, 4, 1, 3
                       };
 
 
@@ -72,7 +72,7 @@ void loop() {
         Timer1.attachInterrupt(pulse_1);
         //delay(duration1);
         delay(duration1);
-        delay(wait_interval); 
+        delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 2) {

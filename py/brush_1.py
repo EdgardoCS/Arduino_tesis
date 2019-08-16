@@ -17,7 +17,6 @@ def distance(x, y):
     """
     return math.sqrt(x * x + y * y)
 
-
 def findPort():
     # Find a single EiBotBoard connected to a USB port.
     try:
