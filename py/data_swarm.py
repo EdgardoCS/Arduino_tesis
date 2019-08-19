@@ -212,8 +212,6 @@ sns.swarmplot(x='stimulation velocity', y='VAS score', data=plot1, size=6, color
 plt.title('VAS score vs AxiDraw Neck Stimulation')
 plt.yticks((-10, -5, 0, 5, 10))
 plt.ylabel("VAS score", labelpad=-5)
-
-
 fig1.show()
 
 fig2 = plt.figure(2)

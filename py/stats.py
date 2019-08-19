@@ -7,8 +7,8 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import pandas as pd
 
-nsample = 100
-np.random.seed(7654321)
+# Setup
+rng = np.random.RandomState(0)  # Seed RNG for replicability
 
 path = '../data/data_sub.xlsx'
 
@@ -33,59 +33,67 @@ temp4 = []
 temp5 = []
 temp6 = []
 
-meanNeck = []
-speedNeck = []
+meanData = []
+speedData = []
+
+index_vas = 0  # neck(0); forearm(2); tactor(4);
+index_speed = index_vas + 1
 
 for t in range(0, subjects):
     for u in range(0, len(dataFrame)):
         # stores the VAS score from each subject in the neck area
-        if dataFrame[headers[(t * fields + 1)]][u] == 3:
-            vasSubjectNeck1.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields + index_speed)]][u] == 3:
+            vasSubjectNeck1.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck1) == trials:
                 temp1.append(vasSubjectNeck1)
-                meanNeck.append(np.mean(temp1))
-                speedNeck.append(3)
+                meanData.append(np.mean(temp1))
+                speedData.append(3)
                 vasSubjectNeck1 = []
-        if dataFrame[headers[(t * fields) + 1]][u] == 10:
-            vasSubjectNeck2.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields) + index_speed]][u] == 10:
+            vasSubjectNeck2.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck2) == trials:
                 temp2.append(vasSubjectNeck2)
-                meanNeck.append(np.mean(temp2))
-                speedNeck.append(10)
+                meanData.append(np.mean(temp2))
+                speedData.append(10)
                 vasSubjectNeck2 = []
-        if dataFrame[headers[(t * fields) + 1]][u] == 30:
-            vasSubjectNeck3.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields) + index_speed]][u] == 30:
+            vasSubjectNeck3.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck3) == trials:
                 temp3.append(vasSubjectNeck3)
-                meanNeck.append(np.mean(temp3))
-                speedNeck.append(30)
+                meanData.append(np.mean(temp3))
+                speedData.append(30)
                 vasSubjectNeck3 = []
-        if dataFrame[headers[(t * fields) + 1]][u] == 50:
-            vasSubjectNeck4.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields) + index_speed]][u] == 50:
+            vasSubjectNeck4.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck4) == trials:
                 temp4.append(vasSubjectNeck4)
-                meanNeck.append(np.mean(temp4))
-                speedNeck.append(50)
+                meanData.append(np.mean(temp4))
+                speedData.append(50)
                 vasSubjectNeck4 = []
-        if dataFrame[headers[(t * fields) + 1]][u] == 100:
-            vasSubjectNeck5.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields) + index_speed]][u] == 100:
+            vasSubjectNeck5.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck5) == trials:
                 temp5.append(vasSubjectNeck5)
-                meanNeck.append(np.mean(temp5))
-                speedNeck.append(100)
+                meanData.append(np.mean(temp5))
+                speedData.append(100)
                 vasSubjectNeck5 = []
-        if dataFrame[headers[(t * fields) + 1]][u] == 200:
-            vasSubjectNeck6.append(dataFrame[headers[t * fields]][u])
+        if dataFrame[headers[(t * fields) + index_speed]][u] == 200:
+            vasSubjectNeck6.append(dataFrame[headers[t * fields + index_vas]][u])
             if len(vasSubjectNeck6) == trials:
                 temp6.append(vasSubjectNeck6)
-                meanNeck.append(np.mean(temp6))
-                speedNeck.append(200)
+                meanData.append(np.mean(temp6))
+                speedData.append(200)
                 vasSubjectNeck6 = []
 
-meanNeck.sort()
+n = len(meanData)
 
-print(meanNeck)
-# x = stats.norm.rvs(loc=0, scale=1, size=len(meanNeck))
-res = stats.probplot(meanNeck, plot=plt)
+# Generate data with Normal distribution to be plotted against it
+x = rng.normal(size=n)  # Sample 1: X ~ N(0, 1)
 
+# Quantile-quantile plot
+plt.figure()
+plt.scatter(np.sort(x), np.sort(meanData))
+plt.xlabel('X')
+plt.ylabel('Y')
 plt.show()
+plt.close()
