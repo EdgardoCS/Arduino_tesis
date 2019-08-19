@@ -10,12 +10,15 @@ import time
 # in new environment, install serial & pyserial
 
 start_time = []
+end_time = []
+
 
 def distance(x, y):
     """
     Pythagorean theorem
     """
     return math.sqrt(x * x + y * y)
+
 
 def findPort():
     # Find a single EiBotBoard connected to a USB port.
@@ -166,6 +169,7 @@ def sendEnableMotors(port_name, res):
         # If res == 4, -> 2X microstepping
         # If res == 5, -> No microstepping
 
+
 def doTimedPause(port_name, n_pause):
     if port_name is not None:
         while n_pause > 0:
@@ -178,15 +182,18 @@ def doTimedPause(port_name, n_pause):
             command(port_name, 'SM,{0},0,0\r'.format(td))
             n_pause -= td
 
+
 def sendPenDown(port_name, pen_delay):
     if port_name is not None:
         str_output = 'SP,0,{0}\r'.format(pen_delay)
         command(port_name, str_output)
 
+
 def sendPenUp(port_name, pen_delay):
     if port_name is not None:
         str_output = 'SP,1,{0}\r'.format(pen_delay)
         command(port_name, str_output)
+
 
 def doXYMove(port_name, delta_x, delta_y, duration):
     # Move X/Y axes as: "SM,<move_duration>,<axis1>,<axis2><CR>"
@@ -195,6 +202,7 @@ def doXYMove(port_name, delta_x, delta_y, duration):
     if port_name is not None:
         str_output = 'SM,{0},{1},{2}\r'.format(duration, delta_y, delta_x)
         command(port_name, str_output)
+
 
 def to_the_front(serial_port, steps, mtime):
     doXYMove(serial_port, -steps, steps, mtime)
@@ -252,7 +260,7 @@ def pen_down(serial_port):
     command(serial_port, 'SC,4,32766\r')
     command(serial_port, 'SC,5,8248\r')
     command(serial_port, 'SC,11,2000\r')
-    #command(serial_port, 'SC,12,350\r')
+    # command(serial_port, 'SC,12,350\r')
     command(serial_port, 'SC,12,650\r')
     command(serial_port, 'SP,0,200\r')
     command(serial_port, 'SM,10,0,0\r')
@@ -606,6 +614,9 @@ def stimulation_loop(desired_distance, desired_speed, desired_interval):
     time.sleep(.5)
     pen_up(serial_port)
     brush(serial_port, -desired_distance, back_speed)
+    w_time1 = time.asctime(time.localtime(time.time()))
+    temp_time1 = w_time1.split()
+    end_time.append(temp_time1[3])
     time.sleep(desired_interval)
 
 
@@ -637,7 +648,7 @@ if __name__ == '__main__':
     speed6 = 7.87402  # 200 mm/s
 
     speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
-    #speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
+    # speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
     rnd = list(speed_list)
     #    print (rnd)
     temp = []
@@ -648,28 +659,29 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    desired_interval = 20
-    #desired_interval = 5
+    # desired_interval = 20
+    desired_interval = 5
 
     save_speed = []
 
-    for i in range(0, 30):
-    #for i in range(0, 6):
+    # for i in range(0, 30):
+    for i in range(0, 6):
         print('trial: ', i + 1)
+
+        w_time0 = time.asctime(time.localtime(time.time()))
+        temp_time0 = w_time0.split()
+        start_time.append(temp_time0[3])
 
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
 
-        w_time = time.asctime(time.localtime(time.time()))
-        temp_time = w_time.split()
-        start_time.append(temp_time[3])
-
     print('------------------')
     print('stimulation ended')
     print('------------------')
+
     out_name = 'C:\Project\code_tesis\data/rnd'
 
-    np.savetxt(out_name + '/trials.csv', np.c_[save_speed, start_time], delimiter=';', fmt='%s',
+    np.savetxt(out_name + '/trials.csv', np.c_[save_speed, start_time, end_time], delimiter=';', fmt='%s',
                header="Trials rnd")
 
     print('saved')

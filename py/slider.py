@@ -12,7 +12,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 
-
 f0 = 0
 delta_f = 1
 
@@ -27,7 +26,7 @@ res_values = []
 final_time = None
 
 meta_sub = input('sujeto: ')
-    
+
 plt.figure(figsize=[16, 5])
 plt.figtext(0.40, 0.75, 'Visual Analog Scale (VAS)', size="x-large")
 
@@ -95,31 +94,29 @@ def reset(event):
         values = 0.0
         res_values.append(values)
 
-    
-    trials = len(res_values)+1
+    trials = len(res_values) + 1
     if len(res_values) == 29:
         trials = 'Final trial'
         reset_button.on_clicked(save)
-    
+
     trial_axis.set_text(trials)
 
     w_time = time.asctime(time.localtime(time.time()))
     temp_time = w_time.split()
     elapsed_time.append(temp_time[3])
 
-#    w_time = datetime.datetime.now()
-#    elapsed_time.append(w_time)
-#    
-#    target = len(elapsed_time)
-#    desired_trials = 5
-#    
-#    if target == desired_trials: 
-#        for u in range(target-1) :
-#            diff_time.append(elapsed_time[u+1]-elapsed_time[u])
-#        print(diff_time)
-#        final_time = str(diff_time)
-        
-    
+    #    w_time = datetime.datetime.now()
+    #    elapsed_time.append(w_time)
+    #
+    #    target = len(elapsed_time)
+    #    desired_trials = 5
+    #
+    #    if target == desired_trials:
+    #        for u in range(target-1) :
+    #            diff_time.append(elapsed_time[u+1]-elapsed_time[u])
+    #        print(diff_time)
+    #        final_time = str(diff_time)
+
     sVAS.reset()
     time.sleep(.09)
     values = []
@@ -131,31 +128,33 @@ def reset(event):
 def save(event):
     global meta_sub
     global final_time
-    
+
     global_path = os.getcwd()
     out_name = global_path + '/../data/sujetos'
-    
-    path = out_name+ '/' + meta_sub
-    
+
+    path = out_name + '/' + meta_sub
+
     n_time = time.asctime(time.localtime(time.time()))
-    
+
     _today = str(datetime.date.today())
-    today = _today.replace('-','')
+    today = _today.replace('-', '')
     _time = n_time.split()
-    save_time = today+'_'+_time[3].replace(':','')[:-2]
-    
-    try:  
-       os.mkdir(path)
-    except OSError:  
-        print ("Creation of the directory %s failed" % path)
-    else:  
-        print ("Successfully created the directory %s " % path)
-        
-#    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-#    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    np.savetxt(path+ '/'+ meta_sub + '_' + save_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';', fmt='%s',
+    save_time = today + '_' + _time[3].replace(':', '')[:-2]
+
+    try:
+        os.mkdir(path)
+    except OSError:
+        print("Creation of the directory %s failed" % path)
+    else:
+        print("Successfully created the directory %s " % path)
+
+    #    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    #    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    np.savetxt(path + '/' + meta_sub + '_' + save_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';',
+               fmt='%s',
                header="Resultado VAS")
     plt.close()
+
 
 sVAS.on_changed(update)
 reset_button.on_clicked(reset)
