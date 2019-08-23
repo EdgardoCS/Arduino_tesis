@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # set path
-path = '../data/data_sub.xlsx'
+path = '../data/data_sub0.xlsx'
 
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_ex')
 headers = dataFrame.columns
@@ -35,7 +35,7 @@ vasSubjectTactor6 = []
 
 trials = 5
 fields = 6
-subjects = 5
+subjects = 6
 
 temp1 = []
 temp2 = []
@@ -103,14 +103,6 @@ for t in range(0, subjects):
                 speedNeck.append(200)
                 vasSubjectNeck6 = []
 
-temp1 = []
-temp2 = []
-temp3 = []
-temp4 = []
-temp5 = []
-temp6 = []
-for t in range(0, subjects):
-    for u in range(0, len(dataFrame)):
         # stores the VAS score from each subject in the foreanr area using axidraw
         if dataFrame[headers[(t * fields) + 3]][u] == 3:
             vasSubjectForearm1.append(dataFrame[headers[(t * fields) + 2]][u])
@@ -155,14 +147,6 @@ for t in range(0, subjects):
                 speedForearm.append(200)
                 vasSubjectForearm6 = []
 
-temp1 = []
-temp2 = []
-temp3 = []
-temp4 = []
-temp5 = []
-temp6 = []
-for t in range(0, subjects):
-    for u in range(0, len(dataFrame)):
         # stores the VAS score from each subject in the foreanr area using tactors
         if dataFrame[headers[(t * fields) + 5]][u] == 3:
             vasSubjectTactor1.append(dataFrame[headers[(t * fields) + 4]][u])

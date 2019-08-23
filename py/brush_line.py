@@ -1,12 +1,14 @@
+import os
 import sys
-import serial
 import math
+import time
+import serial
 import numpy as np
 from array import array
 from random import shuffle
 from itertools import chain
-import time
 
+# import pyserial
 # in new environment, install serial & pyserial
 
 start_time = []
@@ -337,7 +339,7 @@ def calibration_sequence(serial_port):
 
 def brush(serial_port, x_dest, speed):
     y_dest, v_i, v_f = 0, 0, 0
-    print(f'Brushing to {x_dest} with speed {speed}')
+    # print('Brushing to {x_dest} with speed {speed}')
 
     f_curr_x, f_curr_y = 0, 0
     delta_x_inches = x_dest - f_curr_x
@@ -585,7 +587,7 @@ def brush(serial_port, x_dest, speed):
                 motor_dist2_temp = float(move_steps2) / (StepScaleFactor * 2.0)
 
                 # Convert back to find the actual X & Y distances that will be moved:
-                # X Distance moved in this subsegment, in inchse
+                # X Distance moved in this subsegment, in inches
                 x_delta = (motor_dist1_temp + motor_dist2_temp)
                 # Y Distance moved in this subsegment,
                 y_delta = (motor_dist1_temp - motor_dist2_temp)
@@ -659,18 +661,20 @@ if __name__ == '__main__':
 
     desired_speed = list(chain(*temp))
 
-    # desired_interval = 20
-    desired_interval = 5
+    desired_interval = 20
+    # desired_interval = 5
 
     save_speed = []
 
-    # for i in range(0, 30):
-    for i in range(0, 6):
+    for i in range(0, 30):
+    # for i in range(0, 1):
         print('trial: ', i + 1)
 
         w_time0 = time.asctime(time.localtime(time.time()))
         temp_time0 = w_time0.split()
         start_time.append(temp_time0[3])
+
+        print('stimulating at: ', desired_speed[i])
 
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))
@@ -681,8 +685,12 @@ if __name__ == '__main__':
 
     out_name = 'C:\Project\code_tesis\data/rnd'
 
-    np.savetxt(out_name + '/trials.csv', np.c_[save_speed, start_time, end_time], delimiter=';', fmt='%s',
-               header="Trials rnd")
+    if not os.path.exists(out_name + '/trials.csv'):
+        np.savetxt(out_name + '/trials.csv', np.c_[save_speed, start_time, end_time], delimiter=';', fmt='%s',
+                   header="Trials rnd")
+    else:
+        np.savetxt(out_name + '/trials1.csv', np.c_[save_speed, start_time, end_time], delimiter=';', fmt='%s',
+                   header="Trials rnd")
 
     print('saved')
     print('------------------')
