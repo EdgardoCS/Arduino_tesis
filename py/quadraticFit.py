@@ -26,7 +26,7 @@ vas6 = []
 
 trials = 5
 fields = 6
-subjects = 6
+subjects = 9
 
 temp1 = []
 temp2 = []
@@ -44,7 +44,7 @@ def sortSecond(val):
     return val[1]
 
 
-color = ['g', 'r', 'c', 'm', 'y', 'b']
+# color = ['g', 'r', 'c', 'm', 'y', 'b']
 for y in range(0, 3):
     index_vas = y + y * 1  # neck(0); forearm(2); tactor(4);
     index_speed = index_vas + 1
@@ -98,7 +98,7 @@ for y in range(0, 3):
         new_y = np.concatenate(meanData)
 
         # print(new_x)
-        print(new_y)
+        # print(new_y)
 
         lin = LinearRegression()
         lin.fit(new_x, new_y)
@@ -110,40 +110,24 @@ for y in range(0, 3):
         lin2 = LinearRegression()
         lin2.fit(x_poly, new_y)
 
+        fig1 = plt.figure(y)
+
         # plt.scatter(new_x, new_y, color='b')
         # plt.plot(new_x, lin.predict(new_x), color='r')
         # plt.title('Linear Regression')
-        # plt.yticks((-10, -5, 0, 5, 10))
+        # plt.xscale('log')
         # plt.xlabel('Speed')
         # plt.ylabel('VAS score')
-        # plt.show()
-        fig1 = plt.figure(y)
 
         plt.scatter(new_x, new_y, color='k')
-        plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color=color[t])
+        plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color='b')
         plt.title('Polynomial Regression')
-        # plt.yticks((-10, -5, -1, 0, 1, 5, 10))
+        #plt.yticks((-10, -7, -5, -3, -1, 0, 1, 3, 5, 7, 10))
         plt.xscale('log')
         plt.xlabel('Speed')
         plt.ylabel('VAS score')
-        plt.show()
 
         meanData = []
         speedData = []
-        # # plt.scatter(new_x, new_y, color='b')
-        # # plt.plot(new_x, lin.predict(new_x), color='r')
-        # # plt.xscale('log')
-        # # plt.title('Linear Regression')
-        # # plt.xlabel('Speed')
-        # # plt.ylabel('VAS score')
-        # # plt.show()
-        # #
-        # # plt.scatter(new_x, new_y, color='b')
-        # # plt.xscale('log')
-        # # plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color='r')
-        # # plt.xscale('log')
-        # # plt.title('Polynomial Regression log')
-        # # plt.xlabel('Speed')
-        # # plt.ylabel('VAS score')
-        #
+
         fig1.show()

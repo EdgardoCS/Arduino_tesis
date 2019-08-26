@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 rng = np.random.RandomState(0)  # Seed RNG for replicability
 
 # Set data
-path = '../data/data_sub0.xlsx'
+path = '../data/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_ex')
 headers = dataFrame.columns
 
@@ -36,7 +36,7 @@ speedData = []
 # Set initial conditions
 trials = 5
 fields = 6  # 3-10-30-50-100-200
-subjects = 6  # number of subjects
+subjects = 8  # number of subjects
 
 index_vas = 0  # neck(0); forearm(2); tactor(4);
 index_speed = index_vas + 1  # position of rnd values

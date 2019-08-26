@@ -4,7 +4,7 @@ Created on Thu Dec  6 11:28:12 2018
 
 @author: Edgardo
 """
-#from matplotlib import cm
+# from matplotlib import cm
 import os
 import time
 import datetime
@@ -51,6 +51,7 @@ plt.figtext(0.178, 0.48, '|', size="medium")
 plt.figtext(0.218, 0.48, '|', size="medium")
 plt.figtext(0.258, 0.48, '|', size="medium")
 plt.figtext(0.298, 0.48, '|', size="medium")
+plt.figtext(0.298, 0.44, '-5', size="medium")
 plt.figtext(0.338, 0.48, '|', size="medium")
 plt.figtext(0.378, 0.48, '|', size="medium")
 plt.figtext(0.418, 0.48, '|', size="medium")
@@ -62,6 +63,7 @@ plt.figtext(0.578, 0.48, '|', size="medium")
 plt.figtext(0.618, 0.48, '|', size="medium")
 plt.figtext(0.658, 0.48, '|', size="medium")
 plt.figtext(0.698, 0.48, '|', size="medium")
+plt.figtext(0.698, 0.44, '5', size="medium")
 plt.figtext(0.738, 0.48, '|', size="medium")
 plt.figtext(0.778, 0.48, '|', size="medium")
 plt.figtext(0.818, 0.48, '|', size="medium")

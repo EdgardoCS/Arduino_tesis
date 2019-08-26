@@ -650,7 +650,7 @@ if __name__ == '__main__':
     speed6 = 7.87402  # 200 mm/s
 
     speed_list = [speed1, speed2, speed3, speed4, speed5, speed6]
-    # speed_list = [speed5, speed6, speed5, speed6, speed5, speed6]
+    # speed_list = [speed5, speed6, speed4, speed6, speed5, speed4]
     rnd = list(speed_list)
     #    print (rnd)
     temp = []
@@ -667,7 +667,6 @@ if __name__ == '__main__':
     save_speed = []
 
     for i in range(0, 30):
-    # for i in range(0, 1):
         print('trial: ', i + 1)
 
         w_time0 = time.asctime(time.localtime(time.time()))
