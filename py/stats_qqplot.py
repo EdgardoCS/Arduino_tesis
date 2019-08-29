@@ -13,6 +13,10 @@ rng = np.random.RandomState(0)  # Seed RNG for replicability
 # Set data
 path = '../data/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
+<<<<<<< HEAD
+=======
+
+>>>>>>> 87f9fbc92740f1525fd60e3fb6a047e422be0bec
 headers = dataFrame.columns
 
 # Define variables

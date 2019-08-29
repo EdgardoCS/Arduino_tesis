@@ -35,7 +35,7 @@ vasSubjectTactor6 = []
 
 trials = 5
 fields = 6
-subjects = 6
+subjects = 9
 
 temp1 = []
 temp2 = []
