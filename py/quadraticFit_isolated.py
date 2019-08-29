@@ -45,6 +45,7 @@ index_vas = 4  # neck(0); forearm(2); tactor(4);
 index_speed = index_vas + 1
 
 for t in range(0, subjects):
+    print(t)
     for u in range(0, len(dataFrame)):
         # stores the VAS score from each subject in the target area
         if dataFrame[headers[(t * fields + index_speed)]][u] == 3:
