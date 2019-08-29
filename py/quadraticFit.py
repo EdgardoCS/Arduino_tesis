@@ -46,6 +46,7 @@ def sortSecond(val):
 
 # color = ['g', 'r', 'c', 'm', 'y', 'b']
 for y in range(0, 3):
+    plt.cla()
     index_vas = y + y * 1  # neck(0); forearm(2); tactor(4);
     index_speed = index_vas + 1
 
@@ -118,11 +119,10 @@ for y in range(0, 3):
         # plt.xscale('log')
         # plt.xlabel('Speed')
         # plt.ylabel('VAS score')
-
         plt.scatter(new_x, new_y, color='k')
         plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color='b')
         plt.title('Polynomial Regression')
-        #plt.yticks((-10, -7, -5, -3, -1, 0, 1, 3, 5, 7, 10))
+        # plt.yticks((-10, -7, -5, -3, -1, 0, 1, 3, 5, 7, 10))
         plt.xscale('log')
         plt.xlabel('Speed')
         plt.ylabel('VAS score')

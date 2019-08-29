@@ -7,9 +7,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # set path
-path = '../data/data_sub0.xlsx'
+path = '../data/data_sub.xlsx'
+dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
 
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_ex')
 headers = dataFrame.columns
 
 vasSubjectNeck1 = []
@@ -35,7 +35,7 @@ vasSubjectTactor6 = []
 
 trials = 5
 fields = 6
-subjects = 6
+subjects = 9
 
 temp1 = []
 temp2 = []
