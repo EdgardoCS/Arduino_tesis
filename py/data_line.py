@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 # set path
 path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_ex')
+dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
+
 headers = dataFrame.columns
 
 trials = 5

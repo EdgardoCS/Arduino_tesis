@@ -1,13 +1,12 @@
 # the following script will plot a quadratic regression
 
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
-
+plt.switch_backend('TkAgg')
 # GET DATA
 path = '../data/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
@@ -119,10 +118,10 @@ for y in range(0, 3):
         # plt.xlabel('Speed')
         # plt.ylabel('VAS score')
 
-        plt.scatter(new_x, new_y, color='k')
+        # plt.scatter(new_x, new_y, color='k')
         plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color='b')
         plt.title('Polynomial Regression')
-        #plt.yticks((-10, -7, -5, -3, -1, 0, 1, 3, 5, 7, 10))
+        # plt.yticks((-10, -7, -5, -3, -1, 0, 1, 3, 5, 7, 10))
         plt.xscale('log')
         plt.xlabel('Speed')
         plt.ylabel('VAS score')
