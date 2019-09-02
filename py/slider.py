@@ -150,8 +150,8 @@ def save(event):
     else:
         print("Successfully created the directory %s " % path)
 
-    #    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    #    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
+    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
     np.savetxt(path + '/' + meta_sub + '_' + save_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';',
                fmt='%s',
                header="Resultado VAS")
