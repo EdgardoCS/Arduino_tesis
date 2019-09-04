@@ -34,18 +34,19 @@ speedData = []
 # initial conditions
 trials = 5
 fields = 4
-subjects = 9
+subjects = 1
 
 
 # SORT DATA
 def sortSecond(val):
     return val[1]
 
+
 index_vas = 4  # neck(0); forearm(2); tactor(4);
 index_speed = index_vas + 1
 
 for t in range(0, subjects):
-    print(t)
+    # print(t)
     for u in range(0, len(dataFrame)):
         # stores the VAS score from each subject in the target area
         if dataFrame[headers[(t * fields + index_speed)]][u] == 3:
@@ -86,13 +87,15 @@ for t in range(0, subjects):
                 vas6 = []
 
     meanData.sort(key=sortSecond)
-    #print(meanData)
+    # print(meanData)
 
     for i in range(0, len(meanData)):
         speedData.append(meanData[i].pop())
 
     new_x = np.array(speedData).reshape(-1, 1)
     new_y = np.concatenate(meanData)
+    print(new_x)
+    print(new_y)
 
     # print(new_x)
     # print(new_y)
@@ -110,7 +113,7 @@ for t in range(0, subjects):
     # print(lin2.predict(poly.fit_transform(new_x)))
 
     deriv = np.polyder(lin2.coef_[::-1])
-    print(deriv)
+    # print(deriv)
 
     fig1 = plt.figure(5)
     plt.scatter(new_x, new_y, color='k')

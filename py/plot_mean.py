@@ -7,175 +7,44 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
-# plt.switch_backend('TkAgg')
-# GET DATA
-path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
-headers = dataFrame.columns
 
-subjects = 9
-sites = 3
-speedData = []
+def plot_data(mean, sd, color):
+    speed = [3, 10, 30, 50, 100, 200]
+    line_x = np.array(speed).reshape(-1, 1)
+    line_y = np.array(mean)
 
-
-# SORT DATA
-def sortSecond(val):
-    return val[1]
-
-
-def get_data(dataFrame, headers, subjects, indexVas, indexSpeed, u):
-    # set initial conditions
-    trials = 5
-    fields = 6
-
-    vas3 = []
-    vas10 = []
-    vas30 = []
-    vas50 = []
-    vas100 = []
-    vas200 = []
-
-    max1 = []
-    max2 = []
-    max3 = []
-    max4 = []
-    max5 = []
-    max6 = []
-
-    meanData = []
-    medianData = []
-    speedData = []
-    sdData = []
-    # first we have to obtain the data from the dataFrame
-    # each subject has the data pair (vasScore, stimulationSpeed)
-    for s in range(0, subjects):
-        for t in range(0, trials * 6):
-            # store the vas score from each subject in the target site
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 3:
-                vas3.append(dataFrame[headers[s * fields + indexVas]][t])
-                # once the score is collected, its necessary to calculate the mean for each subject
-                if len(vas3) == trials:
-                    # vas3.sort()
-                    sdData.append([np.std(vas3), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas3), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.median(vas3), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas3 = []  # empty variable
-            # then the process is repeated for each speed
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 10:
-                vas10.append(dataFrame[headers[s * fields + indexVas]][t])
-                if len(vas10) == trials:
-                    sdData.append([np.std(vas10), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas10), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.mean(vas10), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas10 = []
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 30:
-                vas30.append(dataFrame[headers[s * fields + indexVas]][t])
-                if len(vas30) == trials:
-                    sdData.append([np.std(vas30), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas30), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.median(vas30), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas30 = []
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 50:
-                vas50.append(dataFrame[headers[s * fields + indexVas]][t])
-                if len(vas50) == trials:
-                    sdData.append([np.std(vas50), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas50), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.median(vas50), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas50 = []
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 100:
-                vas100.append(dataFrame[headers[s * fields + indexVas]][t])
-                if len(vas100) == trials:
-                    sdData.append([np.std(vas100), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas100), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.median(vas100), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas100 = []
-            if dataFrame[headers[(s * fields + indexSpeed)]][t] == 200:
-                vas200.append(dataFrame[headers[s * fields + indexVas]][t])
-                if len(vas200) == trials:
-                    sdData.append([np.std(vas200), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    meanData.append([np.mean(vas200), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    medianData.append([np.median(vas200), dataFrame[headers[(s * fields + indexSpeed)]][t]])
-                    vas200 = []
-
-        meanData.sort(key=sortSecond)
-        sdData.sort(key=sortSecond)
-        medianData.sort(key=sortSecond)
-
-        # print(len(meanData))
-        # print(len(medianData))
-        # print(len(sdData))
-
-        for i in range(0, len(meanData)):
-            speedData.append(meanData[i].pop())
-            medianData[i].pop()
-        new_x = np.array(speedData)
-        new_y = np.concatenate(meanData)
-        # new_y = np.concatenate(medianData)
-        colors = ['blue', 'orange', 'green', 'red', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan']
-        color = colors[s]
-
-        max_y_pos = np.argmax(new_y)
-        print(new_x[max_y_pos])
-        if new_x[max_y_pos] == 3:
-            max1.append(np.amax(new_y))
-        if new_x[max_y_pos] == 10:
-            max2.append(np.amax(new_y))
-        if new_x[max_y_pos] == 30:
-            max3.append(np.amax(new_y))
-        if new_x[max_y_pos] == 50:
-            max4.append(np.amax(new_y))
-        if new_x[max_y_pos] == 100:
-            max5.append(np.amax(new_y))
-        if new_x[max_y_pos] == 200:
-            max6.append(np.amax(new_y))
-        meanData = []
-        speedData = []
-        medianData = []
-        sdData = []
-    plot_data(max1, max2, max3, max4, max5, max6, u)
-
-    # return meanData, sdData
-
-
-def plot_data(max1, max2, max3, max4, max5, max6, u):
-    bars = ('3', '10', '30', '50', '100', '200')
-    y_pos = np.arange(len(bars))
-    plt.figure(u)
-
-    plt.bar(y_pos, [len(max1), len(max2), len(max3), len(max4), len(max5), len(max6)], width=0.5)
-    plt.xticks(y_pos, bars)
-
-    print(max2)
-    # plt.xticks((3, 10, 30, 50, 100, 200))
-
-    '''
     poly = PolynomialFeatures(degree=4)
-    x_poly = poly.fit_transform(new_x)
-
-    poly.fit(x_poly, new_y)
+    x_poly = poly.fit_transform(line_x)
+    poly.fit(x_poly, line_y)
     lin2 = LinearRegression()
-    lin2.fit(x_poly, new_y)
+    lin2.fit(x_poly, line_y)
 
-    fig1 = plt.figure(u)
-
-    plt.scatter(new_x, new_y, color=color)
-    plt.plot(new_x, lin2.predict(poly.fit_transform(new_x)), color=color)  # color
-    plt.title('Polynomial Regression')
+    # plt.scatter(line_x, line_y, color=color)
+    plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color)
+    # plt.errorbar(line_x, mean, sd, linestyle='None', marker='o', ecolor='k', capsize=5)
     # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
-    plt.xticks((3, 10, 30, 50, 100, 200))
-    # plt.xscale('log')
-    plt.xlabel('Speed')
-    plt.ylabel('VAS score')
-    fig1.show()
-    '''
+    plt.tight_layout()
+    plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactors - antebrazo'),
+               loc='upper right')
 
 
-for u in range(0, sites):
-    # set initial conditions
-    sdData = []
-    # indexVas moves across the data
-    # in data_sub.xlsx -- 0 for neck, 2 for forearm(brush), and 4 for forearm(tactor)
-    indexVas = u + u * 1
-    indexSpeed = indexVas + 1
+mean1 = [1.7777777777777777, 2.066666666666667, 2.2444444444444445, 1.8888888888888888, 0.9777777777777777,
+         -0.06666666666666667]
+sd1 = [3.2103228559610906, 3.440930106817051, 2.310897426018785, 2.442423406939393, 2.1958434359174444,
+       2.8158282775923835]
+mean2 = [1.1555555555555554, 2.111111111111111, 2.5555555555555554, 2.111111111111111, 1.3555555555555556,
+         0.5333333333333333]
+sd2 = [3.72353210782782, 3.5479084431517753, 2.879471830855679, 2.301904740013966, 2.222666622231109, 2.517494345133228]
+mean3 = [0.5555555555555556, 1.3555555555555556, 2.0, 1.2444444444444445, 0.24444444444444444, -0.3111111111111111]
+sd3 = [4.933133129070795, 3.163370604315421, 1.8012341448141729, 1.727625931162383, 1.7147148198987046,
+       1.5176329847967887]
 
-    get_data(dataFrame, headers, subjects, indexVas, indexSpeed, u)
+_color = ['r', 'b', 'g']
+_mean = [mean1, mean2, mean3]
+_sd = [sd1, sd2, sd3]
+
+for u in range(0, 3):
+    mean = _mean[u]
+    sd = _sd[u]
+    color = _color[u]
+    plot_data(mean, sd, color)
