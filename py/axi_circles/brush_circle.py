@@ -1,10 +1,14 @@
-import os
-import math
+import sys
 import time
+import math
+import random
 import serial
+import array
 import numpy as np
-from array import array
 
+
+# import pyserial
+# in new environment, install serial & pyserial
 
 def distance(x, y):
     """
@@ -13,14 +17,198 @@ def distance(x, y):
     return math.sqrt(x * x + y * y)
 
 
+def findPort():
+    # Find a single EiBotBoard connected to a USB port.
+    try:
+        from serial.tools.list_ports import comports
+    except ImportError:
+        return None
+    if comports:
+        com_ports_list = list(comports())
+        ebb_port = None
+        for port in com_ports_list:
+            if port[1].startswith("EiBotBoard"):
+                ebb_port = port[0]  # Success; EBB found by name match.
+                break  # stop searching-- we are done.
+        if ebb_port is None:
+            for port in com_ports_list:
+                if port[2].startswith("USB VID:PID=04D8:FD92"):
+                    ebb_port = port[0]  # Success; EBB found by VID/PID match.
+                    break  # stop searching-- we are done.
+        return ebb_port
+
+
+def openPort(com_port):
+    """
+    Open a given serial port, verify that it is an EiBotBoard,
+    and return a SerialPort object that we can reference later.
+
+    This routine only opens the port;
+    it will need to be closed as well, for example with closePort( com_port ).
+    You, who open the port, are responsible for closing it as well.
+    """
+    trials = 10
+    for _ in range(trials):
+        time.sleep(3)
+        try:
+            serial_port = serial.Serial(com_port, timeout=1.0)
+            serial_port.reset_input_buffer()
+            serial_port.write('v\r'.encode('ascii'))
+            str_version = serial_port.readline()
+        except serial.SerialException as se:
+            if 'Device or resource busy:' in se.__str__():
+                print('Waiting for the port to be ready ...')
+            else:
+                print('se: {0}'.format(se))
+                return None
+
+        else:
+            if str_version and str_version.startswith("EBB".encode('ascii')):
+                print('FW version:', str_version.decode('ascii'))
+                return serial_port
+            serial_port.close()
+    return None
+
+
+def closePort(com_port):
+    if com_port is not None:
+        try:
+            com_port.close()
+        except serial.SerialException:
+            pass
+
+
+def command(com_port, cmd):
+    if com_port is not None and cmd is not None:
+        try:
+            com_port.write(cmd.encode('ascii'))
+            response = com_port.readline().decode('ascii')
+            n_retry_count = 0
+            while len(response) == 0 and n_retry_count < 100:
+                # get new response to replace null response if necessary
+                response = com_port.readline()
+                n_retry_count += 1
+            if response.strip().startswith("OK"):
+                pass  # index.errormsg( 'OK after command: ' + cmd ) #Debug option: indicate which command.
+            else:
+                if response:
+                    print('Error: Unexpected response from EBB.')
+                    print('   Command: {0}'.format(cmd.strip()))
+                    print('   Response: {0}'.format(response.strip()))
+                else:
+                    print('EBB Serial Timeout after command: {0}'.format(cmd))
+        except:
+            print('Failed after command: {0}'.format(cmd))
+            pass
+
+
+def sendDisableMotors(port_name):
+    if port_name is not None:
+        command(port_name, 'EM,0,0\r')
+
+
+def sendEnableMotors(port_name, res):
+    if res < 0:
+        res = 0
+    if res > 5:
+        res = 5
+    if port_name is not None:
+        command(port_name, 'EM,{0},{0}\r'.format(res))
+        # If res == 0, -> Motor disabled
+        # If res == 1, -> 16X microstepping
+        # If res == 2, -> 8X microstepping
+        # If res == 3, -> 4X microstepping
+        # If res == 4, -> 2X microstepping
+        # If res == 5, -> No microstepping
+
+
+def setup_servo(serial_port):
+    print('Setting the servo...')
+    command(serial_port, 'SC,4,65535\r')
+    command(serial_port, 'SC,5,65535\r')
+    command(serial_port, 'SC,11,2000\r')
+    command(serial_port, 'SC,12,750\r')
+    command(serial_port, 'SM,10,0,0\r')
+    print('Done')
+
+
+def pen_up(serial_port):
+    command(serial_port, 'PD,B,3,0\r')  # Enable trigger
+    command(serial_port, 'SC,4,32766\r')
+    command(serial_port, 'SC,5,8248\r')
+    command(serial_port, 'SC,11,2000\r')
+    command(serial_port, 'SC,12,750\r')
+    command(serial_port, 'SP,1,200\r')
+    command(serial_port, 'SM,10,0,0\r')
+    command(serial_port, 'PO,B,3,0\r')  # Trigger
+
+
+def pen_down(serial_port):
+    command(serial_port, 'PD,B,3,0\r')  # Enable trigger
+    command(serial_port, 'SC,4,32766\r')
+    command(serial_port, 'SC,5,8248\r')
+    command(serial_port, 'SC,11,2000\r')
+    command(serial_port, 'SC,12,650\r')
+    command(serial_port, 'SP,0,200\r')
+    command(serial_port, 'SM,10,0,0\r')
+    command(serial_port, 'PO,B,3,1\r')  # Trigger
+
+
+# circle functions #
+def circle(cx, cy, r, n):
+    points = []
+    for i in range(n + 1):
+        a = 2 * math.pi * i / n
+        x = cx + math.cos(a) * r
+        y = cy + math.sin(a) * r
+        points.append((x, y))
+    return points
+
+
+def random_points_on_circle(cx, cy, r, n):
+    result = []
+    a = random.random() * 2 * math.pi
+    da = 2 * math.pi / n
+    for i in range(n):
+        x = cx + math.cos(a) * r
+        y = cy + math.sin(a) * r
+        result.append((x, y))
+        a += da
+    return result
+
+
+def add(x, y, r, paths):
+    if r < 1:
+        return
+    paths.append(circle(x, y, r, 90))
+    points = random_points_on_circle(x, y, r, 2)
+    for x, y in points:
+        add(x, y, r / 2, paths)
+
+def rotate_and_scale_to_fit(width, height, padding=0, step=1):
+    values = []
+    width -= padding * 2
+    height -= padding * 2
+    # hull = Drawing([self.convex_hull])
+    for angle in range(0, 180, step):
+        d = hull.rotate(angle)
+        scale = min(width / d.width, height / d.height)
+        values.append((scale, angle))
+    scale, angle = max(values)
+    return rotate(angle).scale(scale, scale).center(width, height)
+
+def circles(serial_port):
+    paths = []
+    add(0, 0, 64, paths)
+    # print(paths)
+    print(rotate_and_scale_to_fit(11, 8.5))
+
+
+'''
 def brush(serial_port, x_dest, speed):
-    y_dest = 0
-    v_i = 0
-    v_f = 0
+    y_dest, v_i, v_f = 0, 0, 0
 
-    f_curr_x = 0
-    f_curr_y = 0
-
+    f_curr_x, f_curr_y = 0, 0
     delta_x_inches = x_dest - f_curr_x
     delta_y_inches = y_dest - f_curr_y
 
@@ -266,7 +454,7 @@ def brush(serial_port, x_dest, speed):
                 motor_dist2_temp = float(move_steps2) / (StepScaleFactor * 2.0)
 
                 # Convert back to find the actual X & Y distances that will be moved:
-                # X Distance moved in this subsegment, in inchse
+                # X Distance moved in this subsegment, in inches
                 x_delta = (motor_dist1_temp + motor_dist2_temp)
                 # Y Distance moved in this subsegment,
                 y_delta = (motor_dist1_temp - motor_dist2_temp)
@@ -276,10 +464,35 @@ def brush(serial_port, x_dest, speed):
 
                 # print('Command:', move_steps2, move_steps1, move_time)
 
-                doXYMove(serial_port, move_steps2, move_steps1, move_time)
+                # doXYMove(serial_port, move_steps2, move_steps1, move_time)
+
                 if move_time > 50:
                     # print('sleep time', float(move_time - 10) / 1000.0)
                     time.sleep(float(move_time - 10) / 1000.0)  # pause before issuing next command
 
                 f_curr_x = f_new_x  # Update current position
                 f_curr_y = f_new_y
+'''
+
+if __name__ == '__main__':
+    p = findPort()
+
+    if p is None:
+        print('Could not find a port with an AxiDraw connected')
+        sys.exit(-1)
+
+    print('AxiDraw found at port', p)
+    serial_port = openPort(p)
+    if serial_port is None:
+        print('Could not open the port.')
+        sys.exit(-1)
+
+    resolution = 2
+    # print('Using resolution set to', resolution)
+    sendEnableMotors(serial_port, resolution)
+
+    circles(serial_port)
+
+    print('------------------')
+    sendDisableMotors(serial_port)
+    closePort(serial_port)
