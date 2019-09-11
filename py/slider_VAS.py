@@ -107,18 +107,6 @@ def reset(event):
     temp_time = w_time.split()
     elapsed_time.append(temp_time[3])
 
-    #    w_time = datetime.datetime.now()
-    #    elapsed_time.append(w_time)
-    #
-    #    target = len(elapsed_time)
-    #    desired_trials = 5
-    #
-    #    if target == desired_trials:
-    #        for u in range(target-1) :
-    #            diff_time.append(elapsed_time[u+1]-elapsed_time[u])
-    #        print(diff_time)
-    #        final_time = str(diff_time)
-
     sVAS.reset()
     time.sleep(.09)
     values = []
@@ -150,8 +138,6 @@ def save(event):
     else:
         print("Successfully created the directory %s " % path)
 
-    #    np.savetxt(meta_sub+'_'+meta_time+'.csv', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
-    #    np.savetxt(meta_sub+'_'+meta_time+'.txt', res_values, delimiter=',', fmt='% 4d', header="Resultado VAS")
     np.savetxt(path + '/' + meta_sub + '_' + save_time + '.csv', np.c_[res_values, elapsed_time], delimiter=';',
                fmt='%s',
                header="Resultado VAS")

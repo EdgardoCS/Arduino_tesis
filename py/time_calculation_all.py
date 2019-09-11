@@ -19,6 +19,7 @@ condition = [3, 10, 30, 50, 100, 200]
 time_mean = []
 time_sd = []
 
+
 for i in range(0, len(condition)):
     temp = []
     for a in range(0, trials * fields):
@@ -33,6 +34,9 @@ for i in range(0, len(condition)):
                 time_sd.append(np.std(temp))
 
 # attempt to fit
+
+
+'''
 line_x = np.array(condition).reshape(-1, 1)
 line_y = np.array(time_mean)
 
@@ -46,3 +50,4 @@ plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)))
 #
 plt.scatter(condition, time_mean)
 plt.errorbar(condition, time_mean, time_sd, linestyle='None', marker='o', capsize=5)
+'''
