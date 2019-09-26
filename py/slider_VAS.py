@@ -108,10 +108,10 @@ def reset(event):
     elapsed_time.append(temp_time[3])
 
     sVAS.reset()
-    time.sleep(.09)
+    # time.sleep(.09)
     values = []
 
-    print(res_values)
+    print(len(res_values))
     return res_values
 
 

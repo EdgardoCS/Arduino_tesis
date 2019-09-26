@@ -6,29 +6,29 @@ from sklearn.preprocessing import PolynomialFeatures
 
 # GET DATA
 path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_noTime')
+dataFrame = pd.read_excel(path, header=2, sheet_name='trials_all')
 headers = dataFrame.columns
+sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
 
 # set initial conditions
-trials = 5
-fields = 6
-subjects = 7
+trials = 5  # for each speed
+fields = 6  # (vas, rnd) for each site
+subjects = int(sub_index / fields)
 
-# create variables
-# temp
-
-# storage
+# create storage variables
 mean = []
 sd = []
-# index_vas = 0  # back = 0; forearm = 2; tactor = 4;
-# index_speed = index_vas + 1
-# index = [0, 2, 4]
-index = [0, 2]
+
+# since we are calculating the mean for each subject in all 3 sites
+# its necessary to stablish the index of each score position
+index = [0, 2, 4]
 color = ['r', 'b', 'g']
 condition = [3, 10, 30, 50, 100, 200]
 
 
-def fetch_data(subjects, trials, dataFrame, headers, condition, i, index_vas, index_speed):
+# fetch_data will read the column for the specific subject at the specific position
+# and storage the scores given the current speed
+def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed):
     s1 = []
     for s in range(0, subjects):
         for t in range(0, trials * 6):
@@ -39,16 +39,16 @@ def fetch_data(subjects, trials, dataFrame, headers, condition, i, index_vas, in
                     sd.append(np.std(s1))
 
 
-speed = [3, 10, 30, 50, 100, 200]
+# the next cycle will move across the data and pass the info for each subject to fetch_data
 for j in range(0, len(index)):
     index_vas = index[j]
     index_speed = index_vas + 1
     mean = []
     sd = []
     for i in range(0, len(condition)):
-        fetch_data(subjects, trials, dataFrame, headers, condition, i, index_vas, index_speed)
+        fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
 
-    line_x = np.array(speed).reshape(-1, 1)
+    line_x = np.array(condition).reshape(-1, 1)
     line_y = np.array(mean)
 
     poly = PolynomialFeatures(degree=5)
@@ -59,8 +59,9 @@ for j in range(0, len(index)):
 
     plt.scatter(line_x, line_y, color=color[j])
     plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
-    plt.errorbar(line_x, mean, sd, linestyle='None', marker='o', ecolor=color[j], capsize=5)
+    plt.xticks(condition)
+    # plt.errorbar(line_x, mean, sd, linestyle='None', marker='o', ecolor=color[j], capsize=5)
     # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
     plt.tight_layout()
-    plt.legend(('Brush - espalda', 'Brush - antebrazo'),
+    plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
                loc='upper right')
