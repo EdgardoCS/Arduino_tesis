@@ -4,6 +4,7 @@ import math
 import time
 import serial
 import numpy as np
+import winsound
 from array import array
 from random import shuffle
 from itertools import chain
@@ -97,8 +98,10 @@ def query(com_port, cmd):
                 response = com_port.readline()
                 n_retry_count += 1
             if cmd.strip().lower() not in ["v", "i", "a", "mr", "pi", "qm"]:
-                # Most queries return an "OK" after the data requested.
-                # We skip this for those few queries that do not return an extra line.
+                '''
+                Most queries return an "OK" after the data requested.
+                We skip this for those few queries that do not return an extra line.
+                '''
                 unused_response = com_port.readline()  # read in extra blank/OK line
                 n_retry_count = 0
                 while len(unused_response) == 0 and n_retry_count < 100:
@@ -141,10 +144,12 @@ def command(com_port, cmd):
 
 
 def doLowLevelMove(port_name, ri1, steps1, delta_r1, ri2, steps2, delta_r2):
-    # A "pre-computed" XY movement of the form
-    #  "LM,RateTerm1,AxisSteps1,DeltaR1,RateTerm2,AxisSteps2,DeltaR2<CR>"
+    '''
+    A "pre-computed" XY movement of the form
+    "LM,RateTerm1,AxisSteps1,DeltaR1,RateTerm2,AxisSteps2,DeltaR2<CR>"
     # See http://evil-mad.github.io/EggBot/ebb.html#LM for documentation.
     # Important: Requires firmware version 2.5.1 or higher.
+    '''
     if port_name is not None:
         if ((ri1 == 0 and delta_r1 == 0) or steps1 == 0) and ((ri2 == 0 and delta_r2 == 0) or steps2 == 0):
             return
@@ -164,12 +169,14 @@ def sendEnableMotors(port_name, res):
         res = 5
     if port_name is not None:
         command(port_name, 'EM,{0},{0}\r'.format(res))
+        '''
         # If res == 0, -> Motor disabled
         # If res == 1, -> 16X microstepping
         # If res == 2, -> 8X microstepping
         # If res == 3, -> 4X microstepping
         # If res == 4, -> 2X microstepping
         # If res == 5, -> No microstepping
+        '''
 
 
 def doTimedPause(port_name, n_pause):
@@ -215,23 +222,11 @@ def to_the_back(serial_port, steps, mtime):
 
 
 def to_the_right(serial_port, steps, mtime):
-    # doXYMove(serial_port, 33, 33, 33)
-    # doXYMove(serial_port, 66, 66, 33)
-    # doXYMove(serial_port, 100, 100, 33)
     doXYMove(serial_port, steps, steps, mtime)
-    # doXYMove(serial_port, 100, 100, 33)
-    # doXYMove(serial_port, 66, 66, 33)
-    # doXYMove(serial_port, 33, 33, 33)
 
 
 def to_the_left(serial_port, steps, mtime):
-    # doXYMove(serial_port, -33, -33, 33)
-    # doXYMove(serial_port, -66, -66, 33)
-    # doXYMove(serial_port, -100, -100, 33)
     doXYMove(serial_port, -steps, -steps, mtime)
-    # doXYMove(serial_port, -100, -100, 33)
-    # doXYMove(serial_port, -66, -66, 33)
-    # doXYMove(serial_port, -33, -33, 33 )
 
 
 def setup_servo(serial_port):
@@ -336,6 +331,11 @@ def calibration_sequence(serial_port):
 
 
 ###############################################################################
+def beep_sound():
+    freq = 1000
+    duration = 500
+    winsound.Beep(freq, duration)
+
 
 def brush(serial_port, x_dest, speed):
     y_dest, v_i, v_f = 0, 0, 0
@@ -392,8 +392,8 @@ def brush(serial_port, x_dest, speed):
 
     PenUpSpeed = 72
     PenDownSpeed = 25
-
     SpeedLimXY_LR = 12
+    '''
     # SpeedLimXY_LR = 3  #12.000 # Maximum XY speed allowed when in Low Resolution
     #                            # mode, in inches per second. Default: 12.000 Max:
     #                            # 17.3958
@@ -406,7 +406,7 @@ def brush(serial_port, x_dest, speed):
     # SpeedLimXY_LR = speed
     # SpeedLimXY_HR = speed
     # Acceleration & Deceleration rates:
-
+    '''
     # AccelRate = 100.0
     AccelRate = 40.0  # 40.0  # Standard acceleration rate, inches per second squared
     AccelRatePU = 60.0  # Pen-up acceleration rate, inches per second squared
@@ -609,17 +609,24 @@ def brush(serial_port, x_dest, speed):
 def stimulation_loop(desired_distance, desired_speed, desired_interval):
     back_speed = 1.9685  # (50mm/sec)
 
+    # stimulation (pen_down)
     pen_down(serial_port)
     time.sleep(1)
-    brush(serial_port, desired_distance, desired_speed)
-
-    time.sleep(.5)
-    pen_up(serial_port)
-    brush(serial_port, -desired_distance, back_speed)
+    brush(serial_port, desired_distance, desired_speed)  # pen moves across the skin site
+    # end of stimulation
+    beep_sound()  # first beep sound
     w_time1 = time.asctime(time.localtime(time.time()))
     temp_time1 = w_time1.split()
     end_time.append(temp_time1[3])
-    time.sleep(desired_interval)
+    time.sleep(2.5)
+    # two beeps - please register score
+    beep_sound()  # each beep takes 0.5 seconds
+    beep_sound()
+    time.sleep(0.5)
+    # stimulation (pen up)
+    pen_up(serial_port)
+    brush(serial_port, -desired_distance, back_speed)  # stimulation ended - pencil up and return to start position
+    time.sleep(desired_interval - 4)  # 20 -3(time.sleep) -1(beep)
 
 
 if __name__ == '__main__':
