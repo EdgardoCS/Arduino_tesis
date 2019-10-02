@@ -3,6 +3,8 @@ from scipy.stats import shapiro
 # '''
 import numpy as np
 import pandas as pd
+import pylab
+import scipy.stats as stats
 
 # GET DATA
 path = '../data/data_sub.xlsx'
@@ -22,7 +24,7 @@ condition = [3, 10, 30, 50, 100, 200]
 
 # fetch_data will read the column for the specific subject at the specific position
 # and storage the scores given the current speed
-def normality_check(raw_data):
+def shapiro_normality_check(raw_data):
     stat, p = shapiro(raw_data)
     print('statics=%.3f, p=%.3f' % (stat, p))
     alpha = 0.05
@@ -30,6 +32,11 @@ def normality_check(raw_data):
         print('Sample looks Gaussian (fail to reject H0)')
     else:
         print('Sample does not look Gaussian (reject H0)')
+
+
+def qq_normality_check(raw_data):
+    stats.probplot(raw_data, dist="norm", plot=pylab)
+    pylab.show()
 
 
 def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed):
@@ -41,7 +48,8 @@ def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
                 if len(s1) == (trials * subjects):
                     raw_data = s1
                     if i == 5:
-                        normality_check(raw_data)
+                        shapiro_normality_check(raw_data)
+                        qq_normality_check(raw_data)
 
 
 # the next cycle will move across the data and pass the info for each subject to fetch_data
