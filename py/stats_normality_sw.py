@@ -18,7 +18,8 @@ fields = 6  # (vas, rnd) for each site
 subjects = int(sub_index / fields)
 
 # we need to obtain the raw data for each subject at each site
-index = [0, 2, 4]
+# index = [0, 2, 4]
+index = [2, 4]
 condition = [3, 10, 30, 50, 100, 200]
 
 
@@ -49,7 +50,7 @@ def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
                     raw_data = s1
                     if i == 5:
                         shapiro_normality_check(raw_data)
-                        qq_normality_check(raw_data)
+                        # qq_normality_check(raw_data)
 
 
 # the next cycle will move across the data and pass the info for each subject to fetch_data
