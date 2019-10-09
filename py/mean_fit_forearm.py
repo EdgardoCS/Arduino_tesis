@@ -17,10 +17,6 @@ subjects = int(sub_index / fields)
 
 print('number of subjects: ', subjects)
 
-# create storage variables
-mean = []
-sd = []
-
 # since we are calculating the mean for each subject in all 3 sites
 # its necessary to stablish the index of each score position
 index = [2, 4]
@@ -50,10 +46,14 @@ def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
 for j in range(0, len(index)):
     index_vas = index[j]
     index_speed = index_vas + 1
+
+    # create storage variables
     mean = []
     sd = []
+
     for i in range(0, len(condition)):
         fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
+
 
     line_x = np.array(condition).reshape(-1, 1)
     line_y = np.array(mean)
@@ -65,7 +65,7 @@ for j in range(0, len(index)):
     lin2.fit(x_poly, line_y)
 
     plt.scatter(line_x, line_y, color=color[j])
-    plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
+    #plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
     plt.xticks(condition)
     plt.xscale('log')
     # plt.errorbar(line_x, mean, sd, linestyle='None', ecolor=color[j], capsize=5)
@@ -73,3 +73,4 @@ for j in range(0, len(index)):
     plt.tight_layout()
     plt.legend(('Brush - antebrazo', 'Tactor - antebrazo'),
                loc='upper right')
+

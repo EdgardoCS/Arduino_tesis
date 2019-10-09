@@ -13,7 +13,8 @@ sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
 # set initial conditions
 trials = 5  # for each speed
 fields = 6  # (vas, rnd) for each site
-subjects = int(sub_index / fields)
+# subjects = int(sub_index / fields)
+subjects = 11
 
 print('number of subjects: ', subjects)
 

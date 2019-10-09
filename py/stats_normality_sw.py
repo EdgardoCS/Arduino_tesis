@@ -15,11 +15,12 @@ sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
 # set initial conditions
 trials = 5  # for each speed
 fields = 6  # (vas, rnd) for each site
-subjects = int(sub_index / fields)
+# subjects = int(sub_index / fields)
+subjects = 11
 
 # we need to obtain the raw data for each subject at each site
-# index = [0, 2, 4]
-index = [2, 4]
+index = [0, 2, 4]
+# index = [2, 4]
 condition = [3, 10, 30, 50, 100, 200]
 
 
@@ -27,7 +28,7 @@ condition = [3, 10, 30, 50, 100, 200]
 # and storage the scores given the current speed
 def shapiro_normality_check(raw_data):
     stat, p = shapiro(raw_data)
-    print('statics=%.3f, p=%.3f' % (stat, p))
+    # print('statics=%.3f, p=%.3f' % (stat, p))
     alpha = 0.05
     if p > alpha:
         print('Sample looks Gaussian (fail to reject H0)')
@@ -42,15 +43,28 @@ def qq_normality_check(raw_data):
 
 def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed):
     s1 = []
-    for s in range(0, subjects):
-        for t in range(0, trials * 6):
+    for s in range(0, subjects):  # move across subjects
+        for t in range(0, trials * 6):  # move across trials
             if dataFrame[headers[(s * fields + index_speed)]][t] == condition[i]:
                 s1.append(dataFrame[headers[s * fields + index_vas]][t])
+
                 if len(s1) == (trials * subjects):
                     raw_data = s1
+                    if (index_vas == 0):
+                        print('site: Neck - method: Brush', '- speed:', condition[i])
+                        shapiro_normality_check(raw_data)
+                    elif (index_vas == 2):
+                        print('site: Forearm - method: Brush', '- speed:', condition[i])
+                        shapiro_normality_check(raw_data)
+                    elif (index_vas == 4):
+                        print('site: Forearm - method: Tactor', '- speed:', condition[i])
+                        shapiro_normality_check(raw_data)
+                    print('---------------------------')
+                    '''
                     if i == 5:
                         shapiro_normality_check(raw_data)
                         # qq_normality_check(raw_data)
+                    '''
 
 
 # the next cycle will move across the data and pass the info for each subject to fetch_data
