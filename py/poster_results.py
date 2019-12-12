@@ -8,13 +8,12 @@ from sklearn.preprocessing import PolynomialFeatures
 path = '../data/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_all')
 headers = dataFrame.columns
-sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
 
 # set initial conditions
 trials = 5  # for each speed
 fields = 6  # (vas, rnd) for each site
-subjects = int(sub_index / fields)
-# subjects = 11
+
+subjects = 11
 
 print('number of subjects: ', subjects)
 
@@ -24,9 +23,15 @@ sd = []
 
 # since we are calculating the mean for each subject in all 3 sites
 # its necessary to stablish the index of each score position
-index = [0, 2, 4]
-color = ['r', 'b', 'g']
-condition = [3, 10, 30, 50, 100, 200]
+
+# index = [0, 2, 4]
+# color = ['r', 'b', 'g']
+
+index = [0]
+color = ['k']
+
+# condition = [3, 10, 30, 50, 100, 200]
+condition = [3, 30, 200]
 
 
 # fetch_data will read the column for the specific subject at the specific position
@@ -63,8 +68,8 @@ for j in range(0, len(index)):
     plt.scatter(line_x, line_y, color=color[j])
     plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
     plt.xticks(condition)
-    # plt.errorbar(line_x, mean, sd, linestyle='None', marker='o', ecolor=color[j], capsize=5)
-    # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
-    plt.tight_layout()
-    plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
-               loc='upper right')
+    plt.xscale('log')
+    plt.yticks((-4, -3, -2, -1, 0, 1, 2, 3, 4))
+    plt.figtext(0.09, 0.93, 'A', size="large")
+    plt.legend(['Soft Brush'], loc='upper right')
+    plt.title('Stimulation Site : Upper Neck')

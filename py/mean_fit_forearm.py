@@ -6,9 +6,9 @@ from sklearn.preprocessing import PolynomialFeatures
 
 # GET DATA
 path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_all')
+dataFrame = pd.read_excel(path, header=2, sheet_name='trials_available')
 headers = dataFrame.columns
-sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
+sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_available').columns)
 
 # set initial conditions
 trials = 5  # for each speed
@@ -65,7 +65,7 @@ for j in range(0, len(index)):
     lin2.fit(x_poly, line_y)
 
     plt.scatter(line_x, line_y, color=color[j])
-    #plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
+    plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
     plt.xticks(condition)
     plt.xscale('log')
     # plt.errorbar(line_x, mean, sd, linestyle='None', ecolor=color[j], capsize=5)

@@ -1,3 +1,7 @@
+'''
+plot the response for the desired subject at the specific place
+'''
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -21,11 +25,13 @@ fields = 6
 mean = []
 sd = []
 
-index = [0, 2, 4]
+#index = [0, 2, 4]
+index = [2]
 color = ['r', 'b', 'g']
 condition = [3, 10, 30, 50, 100, 200]
 
-target = 10
+#target record from user
+target = 12
 
 
 def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed):
@@ -63,5 +69,3 @@ for j in range(0, len(index)):
     # plt.errorbar(line_x, mean, sd, linestyle='None', marker='o', ecolor=color[j], capsize=5)
     # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
     plt.tight_layout()
-    plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
-               loc='upper right')
