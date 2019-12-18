@@ -8,8 +8,8 @@ from sklearn.preprocessing import PolynomialFeatures
 
 # GET DATA
 path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_time')
-sub_index = len(pd.read_excel(path, headers=0, sheet_name='trials_time').columns)
+dataFrame = pd.read_excel(path, header=2, sheet_name='trials_time_available')
+sub_index = len(pd.read_excel(path, headers=0, sheet_name='trials_time_available').columns)
 
 headers = dataFrame.columns
 
@@ -18,7 +18,7 @@ trials = 5
 fields = 10
 subjects = int(sub_index / fields)
 
-index = [2, 7]
+index = [2, 7] #where the speed is located
 color = ['r', 'b']
 condition = [3, 10, 30, 50, 100, 200]
 
@@ -34,7 +34,7 @@ def fetch_time(condition, i, index_resp, index_speed, index_end):
                 # we will skip all negative time difference and those above 20 seconds,
                 # this may be adjust to the desired limit time, example 1 sec
                 # suggest to try using limit of 5 secs since the response shouldn't take that long
-                if time_difference.days == -1 or time_difference.seconds > 20:
+                if time_difference.days == -1 or time_difference.seconds > 5:
                     '''
                     _temp = time_difference + timedelta(days=1)
                     __temp = int(str(_temp).split(':')[2]) - 60
@@ -48,9 +48,10 @@ def fetch_time(condition, i, index_resp, index_speed, index_end):
                             ':')[
                             2]))
                     )
-                if len(temp) == (trials * subjects):
-                    time_mean.append(np.mean(temp))
-                    time_sd.append(np.std(temp))
+                print(temp)
+                #if len(temp) == (trials * subjects):
+                #    time_mean.append(np.mean(temp))
+                #    time_sd.append(np.std(temp))
 
 
 for j in range(0, len(index)):
@@ -64,7 +65,7 @@ for j in range(0, len(index)):
         fetch_time(condition, i, index_resp, index_speed, index_end)
 
     # attempt to fit
-    # '''
+    '''
     line_x = np.array(condition).reshape(-1, 1)
     line_y = np.array(time_mean)
 
@@ -81,4 +82,4 @@ for j in range(0, len(index)):
     plt.xticks(condition)
     plt.legend(('Brush - espalda', 'Brush - antebrazo'),
                loc='upper right')
-    # '''
+    '''

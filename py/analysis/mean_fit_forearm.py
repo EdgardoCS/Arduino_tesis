@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy import stats
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
@@ -18,8 +19,8 @@ subjects = int(sub_index / fields)
 print('number of subjects: ', subjects)
 
 # since we are calculating the mean for each subject in all 3 sites
-# its necessary to stablish the index of each score position
-index = [2, 4]
+# its necessary to establish the index of each score position
+index = [4]
 color = ['b', 'g']
 condition = [3, 10, 30, 50, 100, 200]
 
@@ -40,6 +41,7 @@ def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
                     '''
                     mean.append(np.mean(s1))
                     sd.append(np.std(s1))
+                    se.append(stats.sem(s1))
 
 
 # the next cycle will move across the data and pass the info for each subject to fetch_data
@@ -50,10 +52,10 @@ for j in range(0, len(index)):
     # create storage variables
     mean = []
     sd = []
+    se = []
 
     for i in range(0, len(condition)):
         fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
-
 
     line_x = np.array(condition).reshape(-1, 1)
     line_y = np.array(mean)
@@ -68,9 +70,8 @@ for j in range(0, len(index)):
     plt.plot(line_x, lin2.predict(poly.fit_transform(line_x)), color=color[j])
     plt.xticks(condition)
     plt.xscale('log')
-    # plt.errorbar(line_x, mean, sd, linestyle='None', ecolor=color[j], capsize=5)
+    plt.errorbar(line_x, mean, se, linestyle='None', ecolor=color[j], capsize=5)
     # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
     plt.tight_layout()
-    plt.legend(('Brush - antebrazo', 'Tactor - antebrazo'),
+    plt.legend(('Brush - Forearm', 'Tactor - Forearm'),
                loc='upper right')
-
