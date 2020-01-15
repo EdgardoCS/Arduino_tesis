@@ -685,7 +685,7 @@ if __name__ == '__main__':
         temp_time0 = w_time0.split()
         start_time.append(temp_time0[3])
 
-        print('stimulating at: ', desired_speed[i])
+        print('stimulating at: ', round(desired_speed[i] * 25.4), 'mm/s')
 
         stimulation_loop(desired_distance, desired_speed[i], desired_interval)
         save_speed.append(round(desired_speed[i] * 25.4))

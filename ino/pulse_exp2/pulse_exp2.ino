@@ -19,20 +19,28 @@ int temp2;
 int limit = 30;
 int wait_interval = 20 * 1000;
 
-int duration1 = 24 * 1000;
-int duration2 = 8 * 1000;
-int duration3 = 3 * 1000;
-int duration4 = 2 * 1000;
-int duration5 = 1 * 1000;
+int duration1 = 72 * 1000;    // 72000 = (720*4)*25
+int duration2 = 24 * 1000;    // 24000 = (240*4)*25
+int duration3 = 14.4 * 1000; // 14400 = (144*4)*25
+int duration4 = 7.2 * 1000;  // 7200  = (72*4)*25
+int duration5 = 2 * 1000;
 int duration6 = 1 * 1000;
 
-// 1 = 3; 2 = 10; 3 = 30; 4 = 50; 5 = 100; 6 = 200
+
+// 1 = 1; 2 = 3; 3 = 5; 4 = 30; 5 = 10; 6 = 50
+//int shuffle_speed[] = {
+//  5, 3, 4, 2, 1, 6,
+//  2, 6, 3, 1, 5, 4,
+//  1 , 6, 3, 5, 2, 4,
+//  5, 2, 6, 4, 3, 1,
+//  1, 3 , 2, 5, 6, 4
+//};
 int shuffle_speed[] = {
-  5, 3, 4, 2, 1, 6,
-  2, 6, 3, 1, 5, 4, 
-  1 , 6, 3, 5, 2, 4,
-  5, 2, 6, 4, 3, 1, 
-  1, 3 , 2, 5, 6, 4
+  1, 2, 3, 4, 5, 6,
+  1, 2, 3, 4, 5, 6,
+  1, 2, 3, 4, 5, 6,
+  1, 2, 3, 4, 5, 6,
+  1, 2, 3, 4, 5, 6,
 };
 
 
@@ -66,58 +74,70 @@ void loop() {
   //if (Serial.available() > 0) {
 
   for (int u = 0; u < limit; u++) {
-    Serial.println(u);
+    //Serial.println(u);
     if (forflag == 0) {
       Serial.print("trial: ");
       Serial.println(u + 1);
       //Serial.println(shuffle_speed[u]);
+
       if (shuffle_speed[u] == 1) {
-        Serial.println("3mm/s");
+        Serial.println("1mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_1);
         //delay(duration1);
-        delay(duration1);
+        delay(72000);
+        Serial.println("end trial");
         delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 2) {
-        Serial.println("10mm/s");
+        Serial.println("3mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_2);
         //delay(duration2);
-        delay(duration2 + wait_interval);
+        delay(24000);
+        Serial.println("end trial");
+        delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 3) {
-        Serial.println("30mm/s");
+        Serial.println("5mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_3);
         //delay(duration3);
-        delay(duration3 + wait_interval);
+        delay(14400);
+        Serial.println("end trial");
+        delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 4) {
-        Serial.println("50mm/s");
+        Serial.println("10mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_4);
         //delay(duration4);
-        delay(duration4 + wait_interval);
+        delay(7200);
+        Serial.println("end trial");
+        delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 5) {
-        Serial.println("100mm/s");
+        Serial.println("30mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_5);
         //delay(duration5);
-        delay(duration5 + wait_interval);
+        delay(2000);
+        Serial.println("end trial");
+        delay(wait_interval);
       }
 
       if (shuffle_speed[u] == 6) {
-        Serial.println("200mm/s");
+        Serial.println("50mm/s");
         flag = 0;
         Timer1.attachInterrupt(pulse_6);
         //delay(duration6);
-        delay(duration6 + wait_interval);
+        delay(1000);
+        Serial.println("end trial");
+        delay(wait_interval);
       }
     }
     if (u == limit - 1) {
@@ -170,7 +190,7 @@ void loop() {
 */
 ///////////////////////////////////////////////////
 void pulse_1() {
-  duration = 240; //para 3mm/s
+  duration = 720; //para 1mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -179,20 +199,24 @@ void pulse_1() {
     ++sum;
 
     if (sum < duration + 1) {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -203,7 +227,7 @@ void pulse_1() {
 }
 ///////////////////////////////////////////////////
 void pulse_2() {
-  duration = 72; // para 10mm/s
+  duration = 240; // para 3mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -212,20 +236,24 @@ void pulse_2() {
     ++sum;
 
     if (sum < duration + 1) {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -237,7 +265,7 @@ void pulse_2() {
 
 ///////////////////////////////////////////////////
 void pulse_3() {
-  duration = 24; // para 30mm/s
+  duration = 144; // para 5mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -246,20 +274,24 @@ void pulse_3() {
     ++sum;
 
     if (sum < duration + 1) {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -270,7 +302,7 @@ void pulse_3() {
 }
 ///////////////////////////////////////////////////
 void pulse_4() {
-  duration = 14; // para 50mm/s -- 14.4 ~ 14
+  duration = 72; // para 10mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -279,20 +311,24 @@ void pulse_4() {
     ++sum;
 
     if (sum < duration + 1) {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -303,7 +339,7 @@ void pulse_4() {
 }
 ///////////////////////////////////////////////////
 void pulse_5() {
-  duration = 7; // para 100mm/s -- 7.2 ~ 7
+  duration = 24; // para 30mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -311,21 +347,25 @@ void pulse_5() {
 
     ++sum;
 
-    if (sum < duration) {
+    if (sum < duration +1)  {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
-    temp2 = (duration * 2) + 1;
+    temp2 = (duration * 2);
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
-    temp2 = duration * 3;
-    if (sum >= temp1 && sum < temp2) {
+    temp2 = (duration * 3);
+    if (sum >= temp1 && sum < temp2){
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
-    temp2 = (duration * 4) + 1;
+    temp2 = (duration * 4);
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -336,7 +376,7 @@ void pulse_5() {
 }
 ///////////////////////////////////////////////////
 void pulse_6() {
-  duration = 4; // para 200mm/s -- 3.6 ~ 4
+  duration = 14; // para 50mm/s
   temp1 = duration;
   temp2 = 0;
 
@@ -345,20 +385,24 @@ void pulse_6() {
     ++sum;
 
     if (sum < duration + 1) {
+      Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
+      Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {

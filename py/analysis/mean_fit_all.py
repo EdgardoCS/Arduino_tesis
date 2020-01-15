@@ -5,7 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
 # GET DATA
-path = '../data/data_sub.xlsx'
+path = '../../data/parteI/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_available')
 headers = dataFrame.columns
 sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_available').columns)
@@ -50,6 +50,7 @@ for j in range(0, len(index)):
     for i in range(0, len(condition)):
         fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
 
+    '''
     line_x = np.array(condition).reshape(-1, 1)
     line_y = np.array(mean)
 
@@ -66,5 +67,19 @@ for j in range(0, len(index)):
     # plt.yticks((-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
     plt.xscale('log')
     plt.tight_layout()
+    plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
+               loc='upper right')
+    '''
+
+    x_axis = [1, 2, 3, 4, 5, 6]
+    y_axis = np.array(mean)
+    z1 = np.polyfit(x_axis, y_axis, 2)
+    p1 = np.poly1d(z1)
+    xp = np.linspace(1, 6)
+
+    # plt.subplot(3, 5, a + 1)
+    # plt.title('Sujeto ' + str(a + 1))
+    # plt.ylim(-10, 10)
+    plt.plot(xp, p1(xp))
     plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
                loc='upper right')
