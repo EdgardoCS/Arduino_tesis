@@ -27,21 +27,21 @@ int duration5 = 2 * 1000;
 int duration6 = 1 * 1000;
 
 
-// 1 = 1; 2 = 3; 3 = 5; 4 = 30; 5 = 10; 6 = 50
-//int shuffle_speed[] = {
-//  5, 3, 4, 2, 1, 6,
-//  2, 6, 3, 1, 5, 4,
-//  1 , 6, 3, 5, 2, 4,
-//  5, 2, 6, 4, 3, 1,
-//  1, 3 , 2, 5, 6, 4
-//};
+// 1 = 1; 2 = 3; 3 = 5; 4 = 10; 5 = 30; 6 = 50
 int shuffle_speed[] = {
-  1, 2, 3, 4, 5, 6,
-  1, 2, 3, 4, 5, 6,
-  1, 2, 3, 4, 5, 6,
-  1, 2, 3, 4, 5, 6,
-  1, 2, 3, 4, 5, 6,
+  5, 3, 4, 2, 1, 6,
+  2, 6, 3, 1, 5, 4,
+  1 , 6, 3, 5, 2, 4,
+  5, 2, 6, 4, 3, 1,
+  1, 3 , 2, 5, 6, 4
 };
+//int shuffle_speed[] = {
+//  1, 2, 3, 4, 5, 6,
+//  1, 2, 3, 4, 5, 6,
+//  1, 2, 3, 4, 5, 6,
+//  1, 2, 3, 4, 5, 6,
+//  1, 2, 3, 4, 5, 6,
+//};
 
 
 void setup() {
@@ -135,7 +135,7 @@ void loop() {
         flag = 0;
         Timer1.attachInterrupt(pulse_6);
         //delay(duration6);
-        delay(1000);
+        delay(1500);
         Serial.println("end trial");
         delay(wait_interval);
       }
@@ -199,24 +199,24 @@ void pulse_1() {
     ++sum;
 
     if (sum < duration + 1) {
-      Serial.println("engine1");
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine3");
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -236,24 +236,24 @@ void pulse_2() {
     ++sum;
 
     if (sum < duration + 1) {
-      Serial.println("engine1");
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine3");
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -274,24 +274,24 @@ void pulse_3() {
     ++sum;
 
     if (sum < duration + 1) {
-      Serial.println("engine1");
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine3");
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -311,24 +311,24 @@ void pulse_4() {
     ++sum;
 
     if (sum < duration + 1) {
-      Serial.println("engine1");
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine3");
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -347,25 +347,25 @@ void pulse_5() {
 
     ++sum;
 
-    if (sum < duration +1)  {
-      Serial.println("engine1");
+    if (sum < duration + 1)  {
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = (duration * 2);
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = (duration * 3);
-    if (sum >= temp1 && sum < temp2){
-      Serial.println("engine3");
+    if (sum >= temp1 && sum < temp2) {
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = (duration * 4);
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {
@@ -385,24 +385,24 @@ void pulse_6() {
     ++sum;
 
     if (sum < duration + 1) {
-      Serial.println("engine1");
+      //Serial.println("engine1");
       digitalWrite(pin1, !digitalRead(pin1));
     }
     temp2 = duration * 2;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine2");
+      //Serial.println("engine2");
       digitalWrite(pin2, !digitalRead(pin2));
     }
     temp1 = temp2;
     temp2 = duration * 3;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine3");
+      //Serial.println("engine3");
       digitalWrite(pin3, !digitalRead(pin3));
     }
     temp1 = temp2;
     temp2 = duration * 4;
     if (sum >= temp1 && sum < temp2) {
-      Serial.println("engine4");
+      //Serial.println("engine4");
       digitalWrite(pin4, !digitalRead(pin4));
     }
     if (sum >= duration * 4) {

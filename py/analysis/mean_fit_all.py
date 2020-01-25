@@ -71,15 +71,23 @@ for j in range(0, len(index)):
                loc='upper right')
     '''
 
-    x_axis = [1, 2, 3, 4, 5, 6]
+    x_axis = [3, 10, 30, 50, 100, 200]
     y_axis = np.array(mean)
     z1 = np.polyfit(x_axis, y_axis, 2)
     p1 = np.poly1d(z1)
-    xp = np.linspace(1, 6)
+    xp = np.linspace(3, 200, 30)
+
+    A = z1[0]
+    B = z1[1]
+    C = z1[2]
+
+    max_x = (-B) / (2 * A)
+    max_y = (A * (max_x ** 2)) + (B * max_x) + C  # Ax^2+Bx+C
 
     # plt.subplot(3, 5, a + 1)
     # plt.title('Sujeto ' + str(a + 1))
     # plt.ylim(-10, 10)
+    plt.scatter(x_axis, y_axis)
     plt.plot(xp, p1(xp))
     plt.legend(('Brush - espalda', 'Brush - antebrazo', 'Tactor - antebrazo'),
                loc='upper right')

@@ -120,7 +120,7 @@ def save(event):
     global final_time
 
     global_path = os.getcwd()
-    out_name = global_path + '/../data/sujetos'
+    out_name = global_path + '/../../data/ParteII/sujetos'
 
     path = out_name + '/' + meta_sub
 

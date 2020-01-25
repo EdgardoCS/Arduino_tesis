@@ -97,7 +97,7 @@ def reset(event):
         res_values.append(values)
 
     trials = len(res_values) + 1
-    if len(res_values) == 24:
+    if len(res_values) == 24:    #neck
         trials = 'Final trial'
         reset_button.on_clicked(save)
 
