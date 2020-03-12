@@ -59,7 +59,7 @@ def def_plot(v1, v2):
     # max_y = (A * (x_point ** 2)) + (B * x_point) + C  # Ax^2+Bx+C
     # print(x_point, max_y)
     # plt.plot(x_point, max_y, 'ro')
-    plt.subplot(3, 1, a + 1)
+    plt.subplot(1, 3, a + 1)
 
     plt.title('Sujeto ' + str(a + 1))
     # plt.ylim(-10, 10)

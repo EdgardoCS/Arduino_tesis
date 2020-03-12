@@ -46,8 +46,8 @@ def def_plot(v1, v2, v3):
     # x_axis = np.array([1, 2, 3, 4, 5, 6])
     # xp = np.linspace(1, 6)
 
-    x_axis = np.array([1, 2, 3, 4, 5])
-    xp = np.linspace(1, 5)
+    x_axis = np.array([26, 28, 30, 32, 34])
+    xp = np.linspace(26, 34)
     y_axis = np.array(mean)
 
     z = np.polyfit(x_axis, y_axis, 2)
@@ -69,7 +69,7 @@ def def_plot(v1, v2, v3):
     # print(x_point, max_y)
     # plt.plot(x_point, max_y, 'ro')
 
-    plt.subplot(3, 1, a + 1)
+    plt.subplot(1, 3, a + 1)
 
     plt.title('Sujeto ' + str(a + 1))
     plt.ylim(-10, 10)

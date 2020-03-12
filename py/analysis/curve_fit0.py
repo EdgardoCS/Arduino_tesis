@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 # --- Get Data --- #
 # set path
 
-path = '../../data/ParteI/data_sub.xlsx'
+path = '../../data/ParteI/data_sub-edited.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_available')
 headers = dataFrame.columns
 # read amount of columns with info
@@ -29,7 +29,7 @@ trials = 5
 fields = 6  # (vas,rnd) for each site
 # subjects = int(sub_index / fields)
 min_subjects = 0
-subjects = 15
+subjects = 10
 
 # set desired column in dataFrame (index)
 exp0 = [0, 2, 4]
@@ -58,6 +58,7 @@ def def_plot(v1, v2, v3):
     crit_points = bounds + [x for x in p.deriv().r if x.imag == 0 and bounds[0] < x.real < bounds[1]]
     print(crit_points)
     '''
+
     A = z[0]
     B = z[1]
     C = z[2]
@@ -69,7 +70,7 @@ def def_plot(v1, v2, v3):
     # print(x_point, max_y)
     # plt.plot(x_point, max_y, 'ro')
 
-    plt.subplot(3, 5, a + 1)
+    plt.subplot(2, 5, a + 1)
 
     plt.title('Sujeto ' + str(a + 1))
     # plt.ylim(-10, 10)
