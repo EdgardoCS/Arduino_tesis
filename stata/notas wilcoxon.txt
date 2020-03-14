@@ -1,0 +1,5 @@
+Wilcoxon Signed Rank Test
+Assumptions
+	1. Your dependent variable should be measured at the ordinal or continuous level
+	2. Your independent variable should consist of two categorical, "related groups" or "matched pairs"
+	3. The distribution of the differences between the two related groups needs to be symmetrical in shape.

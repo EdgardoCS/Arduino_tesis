@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
 # GET DATA
-path = '../data/data_sub.xlsx'
+path = '../../data/ParteI/data_sub.xlsx'
 dataFrame = pd.read_excel(path, header=2, sheet_name='trials_all')
 headers = dataFrame.columns
 sub_index = len(pd.read_excel(path, header=2, sheet_name='trials_all').columns)

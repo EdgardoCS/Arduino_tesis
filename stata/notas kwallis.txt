@@ -1,0 +1,52 @@
+kruskal-wallis H test
+asumptions:	
+	1. Your two variables should be measured on an ordinal scale or a continuous scale
+	2. Your independent variable should consist of two or more categorical, independent (unrelated) groups
+	3. You should have independence of observations
+	4. you have to determine whether the distributions in each group have the same shape. However, if your distributions have a different shape, you can only use the Kruskal-Wallis H test to compare mean ranks.
+
+Compare effects of different stimulation speed, same site. 
+set-up
+group . 15 participants /each site
+find if exists statistically differences between groups
+a) speed1
+b) speed2
+c) speed3
+d) speed4
+e) speed5
+f) speed6
+dependent variable: VAS score (pleasantness)
+
+result.
+
+Upper back
+chi-squared with ties =     6.295 with 5 d.f.
+probability =     0.2786
+Forearm
+chi-squared with ties =     7.350 with 5 d.f.
+probability =     0.1959
+
+group . 15 participants
+find if existe statically differences between sites, same speed
+
+a) speed1 vs speed1
+chi-squared with ties =     0.000 with 1 d.f.
+probability =     0.9835
+b) speed2 vs speed2
+chi-squared with ties =     0.414 with 1 d.f.
+probability =     0.5201
+c) speed3 vs speed3
+chi-squared with ties =     0.021 with 1 d.f.
+probability =     0.8842
+d) speed4 vs speed4
+chi-squared with ties =     0.415 with 1 d.f.
+probability =     0.5195
+e) speed5 vs speed5
+chi-squared with ties =     0.007 with 1 d.f.
+probability =     0.9338
+f) speed6 vs speed6
+chi-squared with ties =     0.363 with 1 d.f.
+probability =     0.5469
+
+
+
