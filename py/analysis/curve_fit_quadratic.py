@@ -41,6 +41,14 @@ exp = exp1
 speeds = [3, 10, 30, 50, 100, 200]  # six speeds
 
 
+def slope_intercept(x1, y1):
+    m = ((np.mean(x1) * np.mean(y1)) - np.mean(x1 * y1)) / ((np.mean(x1) * np.mean(x1)) - np.mean(x1 * x1))
+    m = round(m, 4)
+    bx = (np.mean(y1) - np.mean(x1) * m)
+    bx = round(bx, 2)
+    return m, bx
+
+
 def def_plot(v1, v2, v3):
     # plt.figure(a)
 
@@ -53,11 +61,16 @@ def def_plot(v1, v2, v3):
     z = np.polyfit(x_axis, y_axis, 2)
     p = np.poly1d(z)
 
-    '''
+    m, bx = slope_intercept(x_axis, y_axis)
+    #print(m)
+    # print(bx)
+    # print(z)
+    print(p)
+
     bounds = [3, 200]
     crit_points = bounds + [x for x in p.deriv().r if x.imag == 0 and bounds[0] < x.real < bounds[1]]
     print(crit_points)
-    '''
+
 
     A = z[0]
     B = z[1]
@@ -69,7 +82,7 @@ def def_plot(v1, v2, v3):
     # max_y = (A * (x_point ** 2)) + (B * x_point) + C  # Ax^2+Bx+C
     # print(x_point, max_y)
     # plt.plot(x_point, max_y, 'ro')
-
+    '''
     plt.subplot(2, 5, a + 1)
 
     plt.title('Sujeto ' + str(a + 1))
@@ -82,7 +95,7 @@ def def_plot(v1, v2, v3):
     elif d == 4:
         plt.plot(xp, p(xp), 'k.-', label='Antebrazo (tactor)')
     # legend = plt.legend(loc='upper right', fontsize='x-large')
-
+    '''
 
 store_data, mean, sd, std = [], [], [], []
 
