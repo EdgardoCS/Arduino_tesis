@@ -17,7 +17,7 @@ exp1 = [1, 2]
 # exp = exp2
 exp = exp1
 
-for i in range(1, 16):
+for i in range(13, 14):
 
     # set path
     path = '../../data/parteI/s(' + str(i) + ').xlsx'
@@ -37,7 +37,7 @@ for i in range(1, 16):
         z = np.polyfit(x_axis, y_axis, 2)
         p = np.poly1d(z)
 
-        plt.subplot(3, 5, i)
+        # plt.subplot(3, 5, i)
         plt.title('Sujeto ' + str(i))
         plt.subplots_adjust(left=0.03, right=0.99, top=0.96, bottom=0.05, hspace=0.23)
 
