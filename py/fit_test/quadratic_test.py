@@ -1,10 +1,14 @@
 """
-the following will calculate quadratic regression for each subject data at
+the following will calculate linear and quadratic regression for each subject data at
 site 1 (upper back) and plot altogether in the same plot
 
 steps.
 1. get data from each subject and condition
 2. divide data in trial and test
+3. calculate linear regression
+4. calculate quadratic regression
+5. calculate rsquare
+6. next subject
 """
 
 import numpy as np
@@ -32,7 +36,7 @@ speeds = [3, 10, 30, 50, 100, 200]
 
 
 def test_fit(a, b, c, d, e):
-    xp = np.linspace(3, 200)
+    xp = np.linspace(3, 200, 25)
     x_axis_train = np.array(storage_vel_train)
     y_axis_train = np.array(storage_vas_train)
     x_axis_test = np.array(storage_vel_test)
@@ -43,7 +47,8 @@ def test_fit(a, b, c, d, e):
     y1 = np.poly1d(np.polyfit(x_axis_test, y_axis_test, 1))
     y2 = np.poly1d(np.polyfit(x_axis_test, y_axis_test, 2))
 
-    # plt.figure(e)
+    plt.figure(e)
+    plt.subplots_adjust(left=0.05, bottom=0.08, right=0.97, top=0.94, wspace=None, hspace=0.30)
     # TRAINING DATA #
     plt.subplot(221)
     plt.scatter(x_axis_train, y_axis_train)
@@ -84,8 +89,8 @@ def test_fit(a, b, c, d, e):
 
 
 # read data and storage under two categories (trials, test)
-# for a in range(0, n_subjects):
-for a in range(0, 1):  # start with 1 subject for testing purpose
+for a in range(0, n_subjects):
+    # for a in range(0, 1):  # start with 1 subject for testing purpose
     subject = a + 1
     print('subject N°', subject)
     target_column = exp + (3 * a)
@@ -94,7 +99,7 @@ for a in range(0, 1):  # start with 1 subject for testing purpose
     storage_vas_test = []
     storage_vel_test = []
     for b in range(0, len(speeds)):  # this one moves across speeds
-        for c in range(0, 18):  # this one moves vertically across column
+        for c in range(0, 30):  # this one moves vertically across column
             if dataFrame[headers[vel]][c] == speeds[b]:  # search for match
                 storage_vas_train.append(int(dataFrame[headers[target_column]][c]))  # stores data from training target
                 storage_vel_train.append(int(dataFrame[headers[vel]][c]))
