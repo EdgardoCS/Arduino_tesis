@@ -7,20 +7,10 @@ import pylab
 import scipy.stats as stats
 
 # GET DATA
-path = '../data/data_sub.xlsx'
-dataFrame = pd.read_excel(path, header=2, sheet_name='trials_all')
-headers = dataFrame.columns
-sub_index = len(pd.read_excel(path, header=0, sheet_name='trials_all').columns)
+forearm_mean = [1.0, 2.3, 2.8, 2.5, 1.8, 1.1]
+back_mean = [0.9, 2.1, 2.6, 2.1, 1.5, 0.6]
+forearm2_mean = [1.3, 2.3, 2.1, 1.3, 0.4, -0.1]
 
-# set initial conditions
-trials = 5  # for each speed
-fields = 6  # (vas, rnd) for each site
-# subjects = int(sub_index / fields)
-subjects = 11
-
-# we need to obtain the raw data for each subject at each site
-index = [0, 2, 4]
-# index = [2, 4]
 condition = [3, 10, 30, 50, 100, 200]
 
 
@@ -36,40 +26,6 @@ def shapiro_normality_check(raw_data):
         print('Sample does not look Gaussian (reject H0)')
 
 
-def qq_normality_check(raw_data):
-    stats.probplot(raw_data, dist="norm", plot=pylab)
-    pylab.show()
-
-
-def fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed):
-    s1 = []
-    for s in range(0, subjects):  # move across subjects
-        for t in range(0, trials * 6):  # move across trials
-            if dataFrame[headers[(s * fields + index_speed)]][t] == condition[i]:
-                s1.append(dataFrame[headers[s * fields + index_vas]][t])
-
-                if len(s1) == (trials * subjects):
-                    raw_data = s1
-                    if (index_vas == 0):
-                        print('site: Neck - method: Brush', '- speed:', condition[i])
-                        shapiro_normality_check(raw_data)
-                    elif (index_vas == 2):
-                        print('site: Forearm - method: Brush', '- speed:', condition[i])
-                        shapiro_normality_check(raw_data)
-                    elif (index_vas == 4):
-                        print('site: Forearm - method: Tactor', '- speed:', condition[i])
-                        shapiro_normality_check(raw_data)
-                    print('---------------------------')
-                    '''
-                    if i == 5:
-                        shapiro_normality_check(raw_data)
-                        # qq_normality_check(raw_data)
-                    '''
-
-
-# the next cycle will move across the data and pass the info for each subject to fetch_data
-for j in range(0, len(index)):
-    index_vas = index[j]
-    index_speed = index_vas + 1
-    for i in range(0, len(condition)):
-        fetch_data(trials, dataFrame, headers, condition, i, index_vas, index_speed)
+shapiro_normality_check(back_mean)
+shapiro_normality_check(forearm_mean)
+shapiro_normality_check(forearm2_mean)
