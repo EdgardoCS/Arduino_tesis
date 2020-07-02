@@ -63,3 +63,20 @@ notas calculos
 maximo para curvas: 
 max speed back 67.23021452113112
 max speed forearm 78.70703811027452
+
+
+SOSPECHA DE SPATIAL SUMATION
+
+Spatial variation in sensitivity as a factor in measurements of spatial
+summation of warmth and cold
+
+The  present  results  support  the  hypothesis  that topographic variations in sensitivity can significantly influence measurements of spatial summation in the
+temperature  senses. 
+
+ We therefore suggest (and hereafter use) the term spatial enhancement to describe the psycho-physical  effect  of  stimulus  size  on  temperature perception
+
+Topography of sensitivity may therefore
+figure more importantly in spatial enhancement over
+a range of small stimulus areas like those tested here,
+whereas neural  summation may play  a more domi-
+nant  role  for  larger  areas.
