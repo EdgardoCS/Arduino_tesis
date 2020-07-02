@@ -23,6 +23,8 @@ for a in range(0, 2):
     x_point = (-B) / (2 * A)
     xp = np.linspace(3, 200)
 
+    print(z)
+    print(p)
     if a == 0:
         plt.plot(xp, p(xp), 'k--', label='brush - back')
         print('max speed back', x_point)
