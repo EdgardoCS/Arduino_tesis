@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.anchorlayout import AnchorLayout
 
 Builder.load_string("""
 <Boxes>:
@@ -12,6 +13,7 @@ Builder.load_string("""
         BoxLayout: 
             orientation: 'vertical'
             padding: 10
+
             BoxLayout:
                 padding: 10
                 orientation: 'horizontal'
