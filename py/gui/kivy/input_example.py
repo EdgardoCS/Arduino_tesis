@@ -5,14 +5,22 @@ from kivy.uix.boxlayout import BoxLayout
 
 Builder.load_string("""
 <rootwi>:
-    orientation: 'vertical'
-    textinputtext: txt.text
     BoxLayout:
-        Button:
-            on_press: root.print_txt()
-        TextInput:
-            id: txt
-            text: root.textinputtext
+        orientation: 'vertical'
+        textinputtext: txt.text
+        obj_widget: w1
+        BoxLayout:
+            Button:
+                on_press: root.print_txt()
+            TextInput:
+                id: txt
+                text: root.textinputtext
+<MyRootWidget@BoxLayout>:
+    obj_widget: w1
+    MyWidget:
+        id: w1
+        text: "purple turtle"
+'''                
 """)
 
 
@@ -24,7 +32,7 @@ class rootwi(BoxLayout):
         self.textinputtext = 'palim'
 
     def print_txt(self):
-        print(self.textinputtext)
+        print(self.obj_widget.textinputtext)
 
 
 class MyApp(App):
