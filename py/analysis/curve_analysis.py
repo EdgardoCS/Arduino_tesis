@@ -1,8 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-'The following will calculate the quadratic regression for both VAS ratings using brush stimulation'
-'also, it calculates the maximum speed for the curve'
+"""
+
+The following will calculate the quadratic regression for both VAS ratings using brush stimulation
+also, it calculates the maximum speed for the curve
+input data can be set by default
+
+"""
 
 speeds = [3, 10, 30, 50, 100, 200]
 
