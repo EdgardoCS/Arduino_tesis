@@ -1,103 +1,40 @@
-"""
-Subject1
-"""
 import numpy as np
 import matplotlib.pyplot as plt
 
-speeds = [1, 2, 3, 4, 5, 6]
-c1_1 = [3.0,
-        4.0,
-        3.0,
-        5.0,
-        4.0
-        ]
-c1_2 = [6.0,
-        7.0,
-        8.0,
-        7.0,
-        6.0
-        ]
-c1_3 = [5.0,
-        5.0,
-        3.0,
-        5.0,
-        2.0
-        ]
-c1_4 = [6.0,
-        3.0,
-        2.0,
-        4.0,
-        2.0
-        ]
-c1_5 = [3.0,
-        2.0,
-        2.0,
-        3.0,
-        2.0
-        ]
-c1_6 = [2.0,
-        2.0,
-        3.0,
-        3.0,
-        0.0
-        ]
+"""
 
-c2_1 = [2.0,
-        3.0,
-        3.0,
-        4.0,
-        4.0
-        ]
-c2_2 = [3.0,
-        4.0,
-        6.0,
-        6.0,
-        7.0
-        ]
-c2_3 = [3.0,
-        5.0,
-        5.0,
-        6.0,
-        6.0
-        ]
-c2_4 = [3.0,
-        5.0,
-        5.0,
-        5.0,
-        5.0
-        ]
-c2_5 = [2.0,
-        2.0,
-        3.0,
-        3.0,
-        5.0
-        ]
-c2_6 = [2.0,
-        2.0,
-        2.0,
-        2.0,
-        3.0
-        ]
+The following will calculate the quadratic regression for both VAS ratings using brush stimulation
+also, it calculates the maximum speed for the curve
+input data can be set by default
 
-plt.plot(speeds, [c1_1, c1_2, c1_3, c1_4, c1_5, c1_6], 'k.')
-plt.plot(speeds, [c2_1, c2_2, c2_3, c2_4, c2_5, c2_6], 'kx')
+"""
 
+speeds = [3, 10, 30, 50, 100, 200]
 
-from scipy.optimize import curve_fit
+data = [[0.9, 2.1, 2.6, 2.1, 1.5, 0.6], [1.0, 2.3, 2.8, 2.5, 1.8, 1.1]]
+# plt.plot(speeds, data[0], 'k.')
+# plt.plot(speeds, data[1], 'kx')
 
 x_axis = np.array(speeds)
-y_axis1 = np.array([np.mean(c1_1), np.mean(c1_2), np.mean(c1_3), np.mean(c1_4), np.mean(c1_5), np.mean(c1_6)])
-y_axis2 = np.array([np.mean(c2_1), np.mean(c2_2), np.mean(c2_3), np.mean(c2_4), np.mean(c2_5), np.mean(c2_6)])
+for a in range(0, 2):
+    y_axis = np.array(data[a])
 
-# y_axis3 = np.array([np.mean(c3_1), np.mean(c3_2), np.mean(c3_3), np.mean(c3_4), np.mean(c3_5), np.mean(c3_6)])
+    z = np.polyfit(x_axis, y_axis, 2)
+    p = np.poly1d(z)
 
-z1 = np.polyfit(x_axis, y_axis1, 2)
-p1 = np.poly1d(z1)
+    A = z[0]
+    B = z[1]
+    C = z[2]
+    x_point = (-B) / (2 * A)
+    xp = np.linspace(3, 200)
 
-z2 = np.polyfit(x_axis, y_axis2, 2)
-p2 = np.poly1d(z2)
-
-xp = np.linspace(1, 6)
-plt.plot(xp, p1(xp), 'k-', label='Espalda')
-plt.plot(xp, p2(xp), 'k--', label='Antebrazo')
-legend = plt.legend(loc='upper right', fontsize='x-large')
+    print(z)
+    print(p)
+    if a == 0:
+        plt.plot(xp, p(xp), 'k--', label='brush - back')
+        print('max speed back', x_point)
+    if a == 1:
+        plt.plot(xp, p(xp), 'k-', label='brush - forearm')
+        print('max speed forearm', x_point)
+    legend = plt.legend(loc='upper right', fontsize='x-large')
+    plt.xticks([3, 10, 30, 50, 100, 200])
