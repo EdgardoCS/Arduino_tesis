@@ -71,9 +71,9 @@ plt.figtext(0.858, 0.48, '|', size="medium")
 plt.figtext(0.898, 0.48, '|', size="medium")
 
 reset = plt.axes([0.8, 0.3, 0.10, 0.08])
-reset_button = Button(reset, 'Almacenar Valor', hovercolor='0.975')
+reset_button = Button(reset, 'Submit', hovercolor='0.975')
 save = plt.axes([0.8, 0.1, 0.10, 0.08])
-save_button = Button(save, 'Guardar y Salir ', hovercolor='0.975')
+save_button = Button(save, 'Save & Quit', hovercolor='0.975')
 plt.figtext(0.8, 0.75, "Trial: ", size="medium")
 trial_axis = plt.figtext(0.87, 0.75, 1, size="medium")
 
